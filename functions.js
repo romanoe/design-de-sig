@@ -12,7 +12,6 @@
                   source: new ol.source.Vector({
                     url: 'geojson/burkina_faso_roads.geojson',
                     format: new ol.format.GeoJSON(),
-                    fill: 'red'
                   })
                 });
 
