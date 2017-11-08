@@ -1,23 +1,22 @@
 
 
-  function initMap() {
-
     var limitesAdm = new ol.layer.Vector({
             source: new ol.source.Vector({
               url: 'geojson/burkina_faso_administrative.geojson',
               format: new ol.format.GeoJSON()
-            }),
-              style : new ol.style.Style({stroke : new ol.style.Stroke({color:"#000000",width: 1})})
+            })
+
           });
 
-    var routes = new ol.layer.Vector({
-              source: new ol.source.Vector({
-                 url: 'geojson/burkina_faso_roads.geojson',
-                 format: new ol.format.GeoJSON(),
-           }),
-              style : new ol.style.Style({stroke : new ol.style.Stroke({color:"#ff8c00",width: 1.7})})
-         });
-
+        var routes = new ol.layer.Vector({
+                  source: new ol.source.Vector({
+                    url: 'geojson/burkina_faso_roads.geojson',
+                    format: new ol.format.GeoJSON()
+                  }),
+                  style: new ol.style.Style({
+                    stroke: new ol.style.Stroke({color: 'red', width: 2})
+                  })
+                });
 
       var map = new ol.Map({
         target: 'map',
@@ -29,19 +28,19 @@
           limitesAdm,
           routes
         ],
+
         view: new ol.View({
           center: ol.proj.fromLonLat([-1.5338800, 12.3656600]),
           zoom: 7
         })
       });
-    }
-
-  // function toggleLayer(layerName) {
-  //   if (layerName.getVisible() == true) {
-  //       layerName.setVisible(false);
-  //   } else {
-  //       layerName.setVisible(true);
-  //   }
-  //}
 
 
+function hideShow(layer) {
+
+if(layer.getVisible(true)) {
+
+layer.setVisible(false)} else { layer.setVisible(true)}
+
+
+}
