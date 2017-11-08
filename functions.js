@@ -42,5 +42,4 @@ if(layer.getVisible(true)) {
 
 layer.setVisible(false)} else { layer.setVisible(true)}
 
-
 }
