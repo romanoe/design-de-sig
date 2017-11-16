@@ -7,3 +7,5 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+
+/*On renvoit à index donc si index.html existe à la place de index.ejs, il sera lu également*/
