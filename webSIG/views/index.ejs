@@ -1,11 +1,40 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="utf-8">
+
+
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.5.0/css/ol.css" type="text/css">
+    <script src="https://openlayers.org/en/v4.5.0/build/ol.js"></script>
+
+    <script type="text/javascript" src="./javascript/map.js" defer></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel='stylesheet' type="text/css" href="./stylesheets/style.css">
+
+    <title>Web SIG</title>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+
+<div id="map"></div>
+
+<form class="form-inline" id="selector">
+     <label>Ajouter un élément &nbsp;</label>
+     <select id="type">
+       <option value="LineString">Route</option>
+       <option value="LineString">Piste</option>
+       <option value="Point">Ouvrage</option>
+     </select>
+
+   </form>
+
+   <div class="card w-50">
+   	  <div class="card-body">
+   	    <h4 class="card-title">Selectionnez les couches que vous désirez afficher</h4>
+   	    	<input type="checkbox" onclick="hideShow(limitesAdm)" checked> Limites Administratives</br>
+   		    <input type="checkbox" onclick="hideShow(routes)" checked> Réseau routier</br>
+   	  </div>
+   	</div>
+
+
   </body>
 </html>
