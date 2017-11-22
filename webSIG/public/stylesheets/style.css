@@ -19,16 +19,16 @@
 
 .card#feature_forms{
 	padding: 0px 0px 0px;
-	top:150px;	
+	top:500px;
 	right: 0px;
 }
 
 .close {
-    color: white; 
+    color: white;
     opacity: 1;
 }
 
-form{
+form#selector{
 	position:absolute;
 	float: right;
 	background-color: #396173;
@@ -43,4 +43,47 @@ form{
 
 select#type{
 	color:black;
+}
+
+div#formPiste {
+	position:absolute;
+	float: right;
+	background-color: #396173;
+	color: white;
+	width: 350px;
+	padding: 0px 10px 10px;
+	border-radius: 5px;
+	right:10px;
+	top:230px;
+}
+
+div#formRoute {
+	position:absolute;
+	float: right;
+	background-color: #396173;
+	color: white;
+	width: 350px;
+	padding: 0px 10px 10px;
+	border-radius: 5px;
+	right:10px;
+	top:230px;
+}
+
+div#formOuvrage {
+	position:absolute;
+	float: right;
+	background-color: #396173;
+	color: white;
+	width: 350px;
+	padding: 0px 10px 10px;
+	border-radius: 5px;
+	right:10px;
+	top:230px;
+}
+
+button#form{
+text-align:center;
+color:black;
+top:50%;
+left:50%;
 }

@@ -80,7 +80,7 @@ var map = new ol.Map({
 
 
 var draw, snap; // global so we can remove them later
-var typeSelect = document.getElementById('type'); // save in a variable the selected element in the dropdown menu (Ouvrage, Piste or Route) 
+var typeSelect = document.getElementById('type'); // save in a variable the selected element in the dropdown menu (Ouvrage, Piste or Route)
 
 function returnActiveLayer()
 {
@@ -95,10 +95,13 @@ if (typeSelect.value == "Ouvrage") {return 'Point';}
 else {return 'LineString';}
 }
 
+
+
+
 var modify = new ol.interaction.Modify({source: returnActiveLayer().getSource()});
 map.addInteraction(modify);
 
-// 
+//
 function addInteractions() {
   draw = new ol.interaction.Draw({
     source: returnActiveLayer().getSource(),
@@ -109,7 +112,28 @@ function addInteractions() {
   snap = new ol.interaction.Snap({source: returnActiveLayer().getSource()}); // Implement snapping to connect lines from multiple drawing of routes/pistes
   map.addInteraction(snap);
 
+
 }
+
+
+
+map.on('dblclick', function(evt) {
+  if (returnActiveLayer()==ouvrages){
+  document.getElementById("formOuvrage").style.display = 'block';
+  }
+
+  else if (returnActiveLayer()==routes){
+    document.getElementById("formRoute").style.display = 'block';
+  }
+
+  else if (returnActiveLayer()==pistes){
+    document.getElementById("formPiste").style.display = 'block';
+  }
+
+});
+
+
+
       /**
        * Handle change event.
        */
@@ -122,9 +146,29 @@ function addInteractions() {
       addInteractions();
 
 
+
+
+
+
+    function closeForm() {
+      if (returnActiveLayer()==ouvrages && document.getElementById("formOuvrage").style.display == 'block'){
+                document.getElementById("formOuvrage").style.display = 'none';
+      }
+
+      if (returnActiveLayer()==routes &&   document.getElementById("formRoute").style.display == 'block'){
+                document.getElementById("formRoute").style.display = 'none';
+      }
+
+      if (returnActiveLayer()==pistes &&  document.getElementById("formPiste").style.display == 'block'){
+                document.getElementById("formPiste").style.display = 'none';
+      }
+    }
+
+
+
 // Funtion to display or not the geojson layers (use for limitesAdm and roadsNetwork)
 function hideShow(layer) {
-if(layer.getVisible(true)) {
-layer.setVisible(false)} 
+  if(layer.getVisible(true)) {
+    layer.setVisible(false)}
 else { layer.setVisible(true)}
 }

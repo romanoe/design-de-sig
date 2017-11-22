@@ -24,13 +24,12 @@
 <header>
 
 </header>
-     <label>Ajoutez un élément &nbsp;</label>
+     <label>Ajoutez un élément (Double click pour ajouter les attributs) &nbsp;</label>
      <select id="type">
        <option value="Route">Route</option>
        <option value="Piste">Piste</option>
        <option value="Ouvrage">Ouvrage</option>
      </select>
-
    </form>
 
 
@@ -42,9 +41,11 @@
    	  </div>
    	</div>
 
-<div id="form_group">
-   <div class="card w-50" id='feature_forms'>
-      <div class="card-body">
+
+
+
+   <div class="card w-50" id = "formRoute" style="display:none">
+      <div class="card-body" >
         <form>
          <div class="row">
             <div class="col-sm-10">
@@ -53,7 +54,7 @@
           </header>
             </div>
             <div class="col-sm-2">
-          <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" aria-label="Close" onclick="closeForm()"><span aria-hidden="true">&times;</span></button>
             </div>
             </div>
           <input type='text' class="suggest_field form-control" placeholder="Numero">
@@ -64,12 +65,14 @@
           <input type='text' class="suggest_field form-control" placeholder="Trafic moyen">
           <input type='text' class="suggest_field form-control" placeholder="Urgence intervention">
           <input type='textarea' class="suggest_field form-control" placeholder="Détails">
+
+          <button type="button" name="Sauvegarder" id="form" onclick="closeForm()">Sauvegarder</button>
         </form>
       </div>
     </div>
 
-   <div class="card w-50" id='feature_forms'>
-      <div class="card-body">
+   <div class="card w-50" id = "formPiste" style="display:none">
+      <div class="card-body"  >
         <form>
          <div class="row">
             <div class="col-sm-10">
@@ -78,7 +81,7 @@
           </header>
             </div>
             <div class="col-sm-2">
-          <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" aria-label="Close" onclick="closeForm()"><span aria-hidden="true">&times;</span></button>
             </div>
             </div>
           <input type='text' class="suggest_field form-control" placeholder="Numero">
@@ -86,12 +89,13 @@
           <input type='text' class="suggest_field form-control" placeholder="Longueur estimée">
           <input type='text' class="suggest_field form-control" placeholder="Urgence intervention">
           <input type='textarea' class="suggest_field form-control" placeholder="Détails">
+          <button type="button" name="Sauvegarder" id="form" onclick="closeForm()"> Sauvegarder</button>
         </form>
       </div>
-    </div>
+</div>
 
 
-    <div class="card w-50" id='feature_forms'>
+<div class="card w-50" id = "formOuvrage" style="display:none">
       <div class="card-body">
         <form>
           <div class="row">
@@ -101,7 +105,7 @@
           </header>
             </div>
             <div class="col-sm-2">
-          <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" aria-label="Close" onclick="closeForm()"><span aria-hidden="true">&times;</span></button>
             </div>
             </div>
           <input type='text' class="suggest_field form-control" placeholder="Numero">
@@ -109,10 +113,17 @@
           <input type='text' class="suggest_field form-control" placeholder="Date de construction">
           <input type='text' class="suggest_field form-control" placeholder="Urgence Intervention">
           <input type='text' class="suggest_field form-control" placeholder="Plan PDF">
+
+
+          <button type="button" name="Sauvegarder"  id="form" onclick="closeForm()">Sauvegarder</button>
+
+
+
         </form>
       </div>
     </div>
-</div>
+
+
 
 
 
