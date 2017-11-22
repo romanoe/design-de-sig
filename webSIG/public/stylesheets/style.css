@@ -6,13 +6,15 @@
 }
 
 .card{
-    position:relative;
+    position:absolute;
     float: right;
     background-color: #396173;
     color: white;
     width: 350px;
     padding: 0px 10px 10px;
     border-radius: 5px;
+		right:10px;
+		top:10px;
 }
 
 form{
@@ -23,7 +25,10 @@ form{
 	width: 350px;
 	padding: 0px 10px 10px;
 	border-radius: 5px;
+	right:10px;
+	top:150px;
 }
+
 
 select#type{
 	color:black;
