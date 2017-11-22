@@ -110,7 +110,6 @@ function addInteractions() {
   map.addInteraction(snap);
 
 }
-
       /**
        * Handle change event.
        */

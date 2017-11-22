@@ -17,6 +17,17 @@
 		top:10px;
 }
 
+.card#feature_forms{
+	padding: 0px 0px 0px;
+	top:150px;	
+	right: 0px;
+}
+
+.close {
+    color: white; 
+    opacity: 1;
+}
+
 form{
 	position:absolute;
 	float: right;
