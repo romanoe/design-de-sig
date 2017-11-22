@@ -3,3 +3,15 @@ Dès qu'on fait un changement sur les fichiers, besoin de relancer les serveurs.
 -> installer supervisor "npm install supervisor -g" qui fait l'état en continu des modifications effectués sur les fichiers et relance le serveur automatiquement si nécessaire
 
 -> lancer l'app avec "supervisor ./bin/www" maintenant (j'ai changé dans le package.json le chemin du start avec "supervisor ./bin/www" pour qu'on ait rien besoin de changer quand on lance le serveur)
+
+1/ Ajouter un ouvrage 
+	-outil (ol.interaction)
+	-layer pour ajouter ces points (ajouter une couche vecteur dans javascript)
+
+2/ Fin de dessing
+	-afficher masque de saisie
+
+
+Pour la semaine prochaine ajouter interactions
+Regarder video MOOC semaine 6 > base de données NoSQL
+Installer MongoDB
