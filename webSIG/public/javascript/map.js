@@ -112,25 +112,45 @@ function addInteractions() {
   snap = new ol.interaction.Snap({source: returnActiveLayer().getSource()}); // Implement snapping to connect lines from multiple drawing of routes/pistes
   map.addInteraction(snap);
 
+  draw.on('drawend', function(evt){
+
+    if (returnActiveLayer()==ouvrages){
+    document.getElementById("formOuvrage").style.display = 'block';
+    }
+
+    else if (returnActiveLayer()==routes){
+      document.getElementById("formRoute").style.display = 'block';
+    }
+
+    else if (returnActiveLayer()==pistes){
+      document.getElementById("formPiste").style.display = 'block';
+    }
+  });
+
 
 }
 
 
 
-map.on('dblclick', function(evt) {
-  if (returnActiveLayer()==ouvrages){
-  document.getElementById("formOuvrage").style.display = 'block';
-  }
 
-  else if (returnActiveLayer()==routes){
-    document.getElementById("formRoute").style.display = 'block';
-  }
 
-  else if (returnActiveLayer()==pistes){
-    document.getElementById("formPiste").style.display = 'block';
-  }
 
-});
+
+//
+// map.on('dblclick', function(evt) {
+//   if (returnActiveLayer()==ouvrages){
+//   document.getElementById("formOuvrage").style.display = 'block';
+//   }
+//
+//   else if (returnActiveLayer()==routes){
+//     document.getElementById("formRoute").style.display = 'block';
+//   }
+//
+//   else if (returnActiveLayer()==pistes){
+//     document.getElementById("formPiste").style.display = 'block';
+//   }
+//
+// });
 
 
 
