@@ -15,3 +15,10 @@ Dès qu'on fait un changement sur les fichiers, besoin de relancer les serveurs.
 Pour la semaine prochaine ajouter interactions
 Regarder video MOOC semaine 6 > base de données NoSQL
 Installer MongoDB
+
+Mongo dump pour tester un db
+
+Importer couche geojson dans DB :
+mongoimport --db burkina --collection initial_layers --file Documents/EPFL/'Master - Semestre 3'/'Design de SIG'/DesignDeSIG/webSIG/public/geojson/burkina_faso_administrative.geojson
+
+Launch « mongo » in one window and « mongod » in another one to start working on servers.

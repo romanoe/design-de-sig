@@ -47,8 +47,9 @@ var routes = new ol.layer.Vector({
 // Administrative boundaries overlay
 var limitesAdm = new ol.layer.Vector({
             source: new ol.source.Vector({
-              url: '../geojson/burkina_faso_administrative.geojson',
-              format: new ol.format.GeoJSON()
+              url: '/mapjson/burkina_faso_administrative',
+              format: new ol.format.GeoJSON(),
+              projection: 'EPSG : 4326'
             })
 
           });
@@ -56,8 +57,9 @@ var limitesAdm = new ol.layer.Vector({
 // Roads network overlay
 var roadsNetwork = new ol.layer.Vector({
                   source: new ol.source.Vector({
-                    url: '../geojson/burkina_faso_roads.geojson',
-                    format: new ol.format.GeoJSON()
+                    url: '/mapjson/burkina_faso_roads',
+                    format: new ol.format.GeoJSON(),
+                    projection: 'EPSG : 4326'
                   }),
                   style: new ol.style.Style({
                     stroke: new ol.style.Stroke({color: 'red', width: 2})
@@ -112,10 +114,12 @@ function addInteractions() {
   snap = new ol.interaction.Snap({source: returnActiveLayer().getSource()}); // Implement snapping to connect lines from multiple drawing of routes/pistes
   map.addInteraction(snap);
 
+
   draw.on('drawend', function(evt){
 
     if (returnActiveLayer()==ouvrages){
     document.getElementById("formOuvrage").style.display = 'block';
+
     }
 
     else if (returnActiveLayer()==routes){
@@ -127,11 +131,72 @@ function addInteractions() {
     }
   });
 
-
 }
 
 
 
+// var tempFeature;
+
+// function createGeoJSON(evt) {
+
+//   var tFeature = {
+//     'type' : 'Feature',
+//     'properties' :{
+//       'name':'',
+//       'type':'',
+//       'date_construction':'',
+//       'urgence_interv':'',
+//       'planPDF':''
+//     },
+//     'geometry':{
+//       'type':'Point',
+//       'coordinates': evt.coordinate
+//     }
+//   };
+
+//   var reader = new ol.format.GeoJSON();
+//   tempFeature = reader.readFeature(tFeature);
+//   returnActiveLayer().getSource().addFeature(tempFeature);
+
+//   var myarray = [];
+//   $('#formOuvrage').find(':input').each(function(){
+//     myarray.push($(this).val());
+//   });
+
+//   // Put initial values in the form (tFeature.geometry.coordinates[0] if we want in the form the X coordinates of the point drawn)
+//   myarray[0] = tFeature.properties.name;
+//   myarray[1] = tFeature.properties.type;
+//   myarray[2] = tFeature.properties.date_construction;
+//   myarray[3] = tFeature.properties.urgence_interv;
+//   myarray[4] = tFeature.properties.planPDF;
+//     }
+//   }
+// }
+
+
+// function onsaved(arg,msg){
+//   if(arg == null){
+//     console.log(msg);
+//   }
+//   else{
+//     tempFeature._id=arg._id;
+//   }
+//     closeForm();
+// }
+
+// function saveform(callback) {
+//   savedata(callback);
+// }
+
+// function savedata(callback) {
+//   var request = windows.superagent
+// }
+
+// // If we click on "Cancel" on the form
+// function cancelform() {
+//     returnActiveLayer().getSource().removeFeature(tempFeature); // remove the temporary feature drawned
+//     onsaved(null,'cancelled');
+// }
 
 
 
@@ -164,8 +229,6 @@ function addInteractions() {
       };
 
       addInteractions();
-
-
 
 
 
