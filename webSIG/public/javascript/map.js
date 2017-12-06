@@ -110,20 +110,14 @@ snap = new ol.interaction.Snap({source: returnActiveLayer().getSource()}); // Im
 
 
 document.getElementById('addButton').onclick = setMode;
-document.getElementById('modifyButton').onclick=setMode;
+document.getElementById('modifyButton').onclick= setMode;
 //map.on('click',createGeoJSON);
 
 //document.getElementById('annull').onclick=cancelform;
 //document.getElementById('save').onclick=function(){saveform(onsaved)};
 
-//Define add button function
-// document.getElementById('add').onclick = function () {
-//   map.addInteraction(modify);
-//   map.addInteraction(draw);
-//   map.addInteraction(snap);
-// }
 
-//
+
 function addInteractions() {
     draw = new ol.interaction.Draw({
     source: returnActiveLayer().getSource(),
