@@ -108,12 +108,20 @@ snap = new ol.interaction.Snap({source: returnActiveLayer().getSource()}); // Im
 
 
 
+
+document.getElementById('addButton').onclick = setMode;
+document.getElementById('modifyButton').onclick=setMode;
+//map.on('click',createGeoJSON);
+
+//document.getElementById('annull').onclick=cancelform;
+//document.getElementById('save').onclick=function(){saveform(onsaved)};
+
 //Define add button function
-document.getElementById('add').onclick = function () {
-  map.addInteraction(modify);
-  map.addInteraction(draw);
-  map.addInteraction(snap);
-}
+// document.getElementById('add').onclick = function () {
+//   map.addInteraction(modify);
+//   map.addInteraction(draw);
+//   map.addInteraction(snap);
+// }
 
 //
 function addInteractions() {
@@ -129,7 +137,7 @@ function addInteractions() {
 
     if (returnActiveLayer()==ouvrages){
     document.getElementById("formOuvrage").style.display = 'block';
-    
+
 
     }
 
@@ -145,38 +153,48 @@ function addInteractions() {
 }
 
 
+//Gestion des boutons add et modify
+let mode = 'none';
+function setMode() {
 
-// let mode = 'none';
-// function setMode() {
-//
-//   if(this.id == 'modify') {
-//     document.getElementById('modify').style.color='black';
-//
-//     if(mode=='mod') {
-//
-//       mode = 'none';
-//       this.style.color='black';
-//
-//     }
-//
-//   } else {
-//     mode = 'modify';
-//     this.style.color='red';
-//   }
-//
-//
-//
-//
-//
-//
-//
-// }
+  if(this.id == 'addButton') {
+    document.getElementById('modifyButton').style.color='black';
+
+    if(mode=='add') {
+      mode = 'none';
+      this.style.color='black';
+
+  } else {
+    mode = 'add';
+    this.style.color='red';
+    map.addInteraction(modify);
+    map.addInteraction(draw);
+    map.addInteraction(snap);
+  }
+}
+
+else if (this.id=='modifyButton') {
+  document.getElementById('addButton').style.color='black';
+  if (mode=='mod'){
+    mode = 'none';
+    this.style.color='black';
+
+  } else {
+    mode = 'mod';
+    this.style.color='red';
+  }
+}
+
+
+}
 
 
 
-// var tempFeature;
+var tempFeature;
 //
 // function createGeoJSON(evt) {
+//
+// if(mode==='add'){
 //
 //   var tFeature = {
 //     'type' : 'Feature',
@@ -210,7 +228,7 @@ function addInteractions() {
 //   myarray[4] = tFeature.properties.planPDF;
 //     }
 //   }
-// }
+//
 //
 //
 // function onsaved(arg,msg){
@@ -228,7 +246,8 @@ function addInteractions() {
 // }
 //
 // function savedata(callback) {
-//   var request = windows.superagent
+//   var request = windows.superagent;
+//
 // }
 //
 // // If we click on "Cancel" on the form
@@ -237,7 +256,7 @@ function addInteractions() {
 //     onsaved(null,'cancelled');
 // }
 //
-
+//
 
 
       /**

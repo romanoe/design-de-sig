@@ -29,9 +29,9 @@
        <option value="Piste">Piste</option>
        <option value="Ouvrage">Ouvrage</option>
      </select>
-     <button type="button" name="button" class='modification' id='add'>Ajouter</button>
-     <button type="button" name="button" class='modification' id='modify'>Modifier une entité</button>
-     <button type="button" name="button" class='modification' id='delete'>Effacer une entité</button>
+     <button type="button" name="button" class='modification' id='addButton'>Ajouter</button>
+     <button type="button" name="button" class='modification' id='modifyButton'>Modifier une entité</button>
+     <button type="button" name="button" class='modification' id='deleteButton'>Effacer une entité</button>
 
    </form>
 
@@ -69,7 +69,8 @@
           <input type='text' class="suggest_field form-control" placeholder="Urgence intervention">
           <input type='textarea' class="suggest_field form-control" placeholder="Détails">
 
-          <button type="button" name="Sauvegarder" id="form" onclick="closeForm()">Sauvegarder</button>
+          <button type="button" name="Sauvegarder"  id="save">Sauvegarder</button>
+          <button type="button" name="Cancel"  id="annull">Annuller</button>
         </form>
       </div>
     </div>
@@ -92,7 +93,8 @@
           <input type='text' class="suggest_field form-control" placeholder="Longueur estimée">
           <input type='text' class="suggest_field form-control" placeholder="Urgence intervention">
           <input type='textarea' class="suggest_field form-control" placeholder="Détails">
-          <button type="button" name="Sauvegarder" id="form" onclick="closeForm()"> Sauvegarder</button>
+          <button type="button" name="Sauvegarder"  id="save">Sauvegarder</button>
+          <button type="button" name="Cancel"  id="annull">Annuller</button>
         </form>
       </div>
 </div>
@@ -118,8 +120,8 @@
           <input type='text' class="suggest_field form-control" placeholder="Plan PDF">
 
 
-          <button type="button" name="Sauvegarder"  id="form" onclick="closeForm()">Sauvegarder</button>
-
+          <button type="button" name="Sauvegarder"  id="save">Sauvegarder</button>
+          <button type="button" name="Cancel"  id="annull">Annuller</button>
 
 
         </form>
