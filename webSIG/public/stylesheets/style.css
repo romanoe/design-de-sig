@@ -56,7 +56,7 @@ div#formPiste {
 	left: 50%;
 	margin: -100px 0 0 -150px;
 	}
-	
+
 div#formRoute {
 	position:absolute;
 	background-color: #396173;
@@ -97,4 +97,9 @@ button#modify {
 button#delete {
 	color:black;
 	dispalay:block;
+}
+
+button#add {
+	color:black;
+	dispalay:inline-block;
 }

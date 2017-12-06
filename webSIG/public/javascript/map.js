@@ -139,10 +139,38 @@ function addInteractions() {
 
 
 
+// let mode = 'none';
+// function setMode() {
+//
+//   if(this.id == 'modify') {
+//     document.getElementById('modify').style.color='black';
+//
+//     if(mode=='mod') {
+//
+//       mode = 'none';
+//       this.style.color='black';
+//
+//     }
+//
+//   } else {
+//     mode = 'modify';
+//     this.style.color='red';
+//   }
+//
+//
+//
+//
+//
+//
+//
+// }
+
+
+
 // var tempFeature;
-
+//
 // function createGeoJSON(evt) {
-
+//
 //   var tFeature = {
 //     'type' : 'Feature',
 //     'properties' :{
@@ -157,16 +185,16 @@ function addInteractions() {
 //       'coordinates': evt.coordinate
 //     }
 //   };
-
+//
 //   var reader = new ol.format.GeoJSON();
 //   tempFeature = reader.readFeature(tFeature);
 //   returnActiveLayer().getSource().addFeature(tempFeature);
-
+//
 //   var myarray = [];
 //   $('#formOuvrage').find(':input').each(function(){
 //     myarray.push($(this).val());
 //   });
-
+//
 //   // Put initial values in the form (tFeature.geometry.coordinates[0] if we want in the form the X coordinates of the point drawn)
 //   myarray[0] = tFeature.properties.name;
 //   myarray[1] = tFeature.properties.type;
@@ -176,8 +204,8 @@ function addInteractions() {
 //     }
 //   }
 // }
-
-
+//
+//
 // function onsaved(arg,msg){
 //   if(arg == null){
 //     console.log(msg);
@@ -187,39 +215,21 @@ function addInteractions() {
 //   }
 //     closeForm();
 // }
-
+//
 // function saveform(callback) {
 //   savedata(callback);
 // }
-
+//
 // function savedata(callback) {
 //   var request = windows.superagent
 // }
-
+//
 // // If we click on "Cancel" on the form
 // function cancelform() {
 //     returnActiveLayer().getSource().removeFeature(tempFeature); // remove the temporary feature drawned
 //     onsaved(null,'cancelled');
 // }
-
-
-
-
 //
-// map.on('dblclick', function(evt) {
-//   if (returnActiveLayer()==ouvrages){
-//   document.getElementById("formOuvrage").style.display = 'block';
-//   }
-//
-//   else if (returnActiveLayer()==routes){
-//     document.getElementById("formRoute").style.display = 'block';
-//   }
-//
-//   else if (returnActiveLayer()==pistes){
-//     document.getElementById("formPiste").style.display = 'block';
-//   }
-//
-// });
 
 
 
