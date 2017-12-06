@@ -103,26 +103,33 @@ else {return 'LineString';}
 
 
 
-
 var modify = new ol.interaction.Modify({source: returnActiveLayer().getSource()});
-map.addInteraction(modify);
+snap = new ol.interaction.Snap({source: returnActiveLayer().getSource()}); // Implement snapping to connect lines from multiple drawing of routes/pistes
+
+
+
+//Define add button function
+document.getElementById('add').onclick = function () {
+  map.addInteraction(modify);
+  map.addInteraction(draw);
+  map.addInteraction(snap);
+}
 
 //
 function addInteractions() {
-  draw = new ol.interaction.Draw({
+    draw = new ol.interaction.Draw({
     source: returnActiveLayer().getSource(),
     type: returnType()
   });
-  map.addInteraction(draw);
 
-  snap = new ol.interaction.Snap({source: returnActiveLayer().getSource()}); // Implement snapping to connect lines from multiple drawing of routes/pistes
-  map.addInteraction(snap);
+
 
 
   draw.on('drawend', function(evt){
 
     if (returnActiveLayer()==ouvrages){
     document.getElementById("formOuvrage").style.display = 'block';
+    
 
     }
 
