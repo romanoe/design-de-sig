@@ -87,3 +87,15 @@ color:black;
 top:50%;
 left:50%;
 }
+
+button#modify {
+	color:black;
+	display:block;
+	margin-bottom: 8px;
+}
+
+
+button#delete {
+	color:black;
+	dispalay:block;
+}

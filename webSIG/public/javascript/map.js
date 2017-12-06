@@ -4,6 +4,8 @@ var sourceR = new ol.source.Vector({});
 var source = new ol.source.Vector({});
 
 
+
+
 // Drawing layer for Pistes, Routes and ouvrages
 var ouvrages = new ol.layer.Vector({
         source: sourceO,
@@ -79,6 +81,8 @@ var map = new ol.Map({
           zoom: 7
         })
       });
+
+
 
 
 var draw, snap; // global so we can remove them later
