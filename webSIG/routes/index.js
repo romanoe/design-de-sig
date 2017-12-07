@@ -119,7 +119,6 @@ router.get('/mapjson/:name', function (req,res) {
 router.post('/form', function (req,res){
 
 	console.log(req.body);
-	console.log('nfenfe')
 
 	var newLayer = new ouvragesModel(req.body);
 
@@ -129,6 +128,27 @@ router.post('/form', function (req,res){
 		}
 		else{
 			res.send(newobj);
+		};
+	});
+});
+
+
+router.get('/form', function (req,res){
+	console.log(req.params.name);
+	ouvragesModel.find({}, function(err,docs) {
+		res.send(docs);
+	});
+});
+
+
+router.put('/form/updateItem', function (err,res) {
+	var id = req.body.id, body=req.body;
+	ouvragesModel.findByIdAndUpdate(id, body, function (err,docs) {
+		if(err) {
+			res.send(err.message);
+		}
+		else {
+			res.send('OK');
 		};
 	});
 });

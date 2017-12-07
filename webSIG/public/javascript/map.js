@@ -17,6 +17,8 @@ var ouvrages = new ol.layer.Vector({
         })
       });
 
+addFromDB();
+
 var pistes = new ol.layer.Vector({
         source: sourceP,
         style: new ol.style.Style({
@@ -80,6 +82,8 @@ var map = new ol.Map({
           zoom: 7
         })
       });
+
+
 
 
 
@@ -215,6 +219,25 @@ function createGeoJSON(evt) {
       document.getElementById("plan_PDF").value = tFeature.properties.plan_PDF;
 
   }
+
+  if(mode==='mod'){
+    this.forEachFeatureAtPixel(evt.pixel, function (feature,layer) {
+      if(layer === 'ouvrages') {
+        document.getElementById("name").value = feature.getProperties().name;
+        document.getElementById("type").value = feature.getProperties().type;
+        document.getElementById("date_construction").value = feature.getProperties().date_construction;
+        document.getElementById("urgence_interv").value = feature.getProperties().urgence_interv;
+        document.getElementById("plan_PDF").value = feature.getProperties().plan_PDF;
+        document.getElementById("x_coord").value = feature.getProperties().geometry.getCoordinates()[0];
+        document.getElementById("y_coord").value = feature.getProperties().geometry.getCoordinates()[1];
+
+        document.getElementById("formOuvrage").style.visibility="visible";
+
+        editedFeature=feature;
+        return;
+      }
+    });
+  }
 }
 
 
@@ -226,6 +249,18 @@ function onsaved(arg,msg){
   }
   else{
     if (mode=='add') {tempFeature._id=arg._id;}
+    else if (mode=='mod') {
+      editedFeature.setProperties({"name": document.getElementById("name")});
+      editedFeature.setProperties({"type": document.getElementById("type")});
+      editedFeature.setProperties({"date_construction": document.getElementById("date_construction")});
+      editedFeature.setProperties({"urgence_interv": document.getElementById("urgence_interv")});
+      editedFeature.setProperties({"plan_PDF": document.getElementById("plan_PDF")});
+
+      var geom = new ol.geom.Point([document.getElementById("x_coord").value, document.getElementById("y_coord").value ]);
+      editedFeature.setGeometry(geom);
+      editedFeature=null;
+
+    }
   }
     closeForm();
 }
@@ -236,7 +271,7 @@ function onsaved(arg,msg){
 function savedata(callback) {
   var request = window.superagent;
   console.log(request);
-  var ouvragesE = {
+  var ouvrages = {
     name: document.getElementById("name").value,
     type: document.getElementById("type").value,
     date_construction: document.getElementById("date_construction").value,
@@ -246,12 +281,12 @@ function savedata(callback) {
       document.getElementById("x_coord").value,
       document.getElementById("y_coord").value ]},
     };
-    console.log(ouvragesE)
+    console.log(ouvrages)
 
    if (mode ==='add') {
     request
       .post('/form')
-      .send(ouvragesE)
+      .send(ouvrages)
       .end(function(err,res) {
         if(err) {
           return callback(null, 'Erreur de connexion au serveur, ' + err.message);
@@ -264,7 +299,23 @@ function savedata(callback) {
 
         });
    }
+
+   else if (mode==='mod') {
+    request
+      .put('/form/updateItem')
+      .send(ouvrages)
+      .end(function (err,res) {
+        if (err) {
+          return callback(null, 'Erreur de connexion au serveur, ' + err.message);
+        }
+        if (res.status != 200) {
+          return callback(null, res.text);
+        };
+        callback('updated');
+      });
+   }
  }
+
 
 function saveform(callback) {
   savedata(callback);
@@ -279,9 +330,53 @@ function cancelform() {
     sourceO.removeFeature(tempFeature); // remove the temporary feature drawned
     console.log('nice')
   };
-    sourceO.clear()
+    sourceO.clear();
+    editedFeature=null;
     onsaved(null,'cancelled');
 }
+
+
+
+
+// Add layers from the DB (created by the user)
+function addFromDB() {
+  var request = window.superagent
+  request
+    .get('/form')
+    .end(function(err,res) {
+      if (err) {
+        return callback(null,'Erreur de connexion au serveur, ' + err.message);
+      }
+      if (res.status !== 200) {
+        return callback(null, res.text);
+      }
+      var data = JSON.parse(res.text);
+      for(i=0; i < data.length; i++) {
+        var geojsonFeature = {
+          'type' : 'Feature',
+          'properties' :{
+            'id': data[i].id,
+            'name': data[i].name,
+            'type': data[i].type,
+            'date_construction': data[i].date_construction,
+            'urgence_interv': data[i].urgence_interv,
+            'plan_PDF': data[i].plan_PDF
+          },
+          'geometry':{
+            'type':'Point',
+            'coordinates': [Number(data[i].geometry.coordinates[0]), Number(data[i].geometry.coordinates[1])]
+          }
+        };
+        var reader = new ol.format.GeoJSON();
+        var olFeature = reader.readFeature(geojsonFeature);
+        sourceO.addFeature(olFeature); //add to Ouvrages layer 
+
+          }
+    });
+}
+
+
+
 
 
 
