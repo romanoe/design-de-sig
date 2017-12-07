@@ -70,7 +70,7 @@
           <input type='textarea' class="suggest_field form-control" placeholder="Détails">
 
           <button type="button" name="Sauvegarder"  id="save">Sauvegarder</button>
-          <button type="button" name="Cancel"  id="annull">Annuller</button>
+          <button type="button" name="Cancel"  id="annuler">Annuler</button>
         </form>
       </div>
     </div>
@@ -94,7 +94,7 @@
           <input type='text' class="suggest_field form-control" placeholder="Urgence intervention">
           <input type='textarea' class="suggest_field form-control" placeholder="Détails">
           <button type="button" name="Sauvegarder"  id="save">Sauvegarder</button>
-          <button type="button" name="Cancel"  id="annull">Annuller</button>
+          <button type="button" name="Cancel"  id="annuler">Annuler</button>
         </form>
       </div>
 </div>
@@ -113,20 +113,22 @@
           <button type="button" class="close" aria-label="Close" onclick="closeForm()"><span aria-hidden="true">&times;</span></button>
             </div>
             </div>
-          <input type='text' class="suggest_field form-control" placeholder="Numero">
-          <input type='text' class="suggest_field form-control" placeholder="Type">
-          <input type='text' class="suggest_field form-control" placeholder="Date de construction">
-          <input type='text' class="suggest_field form-control" placeholder="Urgence Intervention">
-          <input type='text' class="suggest_field form-control" placeholder="Plan PDF">
-
-
-          <button type="button" name="Sauvegarder"  id="save">Sauvegarder</button>
-          <button type="button" name="Cancel"  id="annull">Annuller</button>
-
-
+          <!-- <input type='text' id='id' class="suggest_field form-control" placeholder="ID"> -->
+          <input type='number' id='x_coord' class="suggest_field form-control" placeholder="Coordonée X">
+          <input type='number' id='y_coord' class="suggest_field form-control" placeholder="Coordonée Y">
+          <input type='text' id='name' class="suggest_field form-control" placeholder="Numero">
+          <input type='text' id='type' class="suggest_field form-control" placeholder="Type">
+          <input type='date' id='date_construction' class="suggest_field form-control" placeholder="Date de construction">
+          <input type='number' id='urgence_interv' class="suggest_field form-control" placeholder="Urgence Intervention">
+          <input type='text' id='plan_PDF' class="suggest_field form-control" placeholder="Plan PDF">
         </form>
+
+        <div class="container">
+          <button type="button" id="saveOuvrages">Sauvegarder</button>
+          <button type="button" id="annulerOuvrages">Annuler</button>
+        </div>
       </div>
-    </div>
+</div>
 
 
 

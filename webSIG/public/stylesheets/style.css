@@ -80,7 +80,8 @@ div#formOuvrage {
   left: 50%;
   margin: -100px 0 0 -150px;
 }
-button#form{
+
+button{
 text-align:center;
 color:black;
 top:50%;

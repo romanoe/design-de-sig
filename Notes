@@ -21,4 +21,4 @@ Mongo dump pour tester un db
 Importer couche geojson dans DB :
 mongoimport --db burkina --collection initial_layers --file Documents/EPFL/'Master - Semestre 3'/'Design de SIG'/DesignDeSIG/webSIG/public/geojson/burkina_faso_administrative.geojson
 
-Launch « mongo » in one window and « mongod » in another one to start working on servers.
+Launch « mongo » in one window and « mongod » in another one to start working on servers. Then start « npm start » in the app directory (webSIG).

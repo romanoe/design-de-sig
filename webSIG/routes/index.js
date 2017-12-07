@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose'); //MongoDB object use to connect with the database
+mongoose.Promise = global.Promise;
+
 
 // Connection with the MongoDB database (error write on log if impossible to connect)
 mongoose.connect('mongodb://localhost:27017/burkina', {useMongoClient: true})
@@ -36,6 +38,36 @@ var ouvrageSchema = new Schema({
 var ouvragesModel = mongoose.model('ouvragesLayer',ouvrageSchema,'ouvrages')
 
 
+// Routes features
+var routeSchema = new Schema({
+	name : String,
+	longEst : Number,
+	libelle : String,
+	details : String,
+	revetement : String,
+	classe : String,
+	traficMoyen : Number,
+	geometry : {
+		type : {type : String},
+		coordinates : []
+	}
+});
+var routesModel = mongoose.model('routesLayer',routeSchema,'routes') // model named routesLayer and constructed from the schema routeSchema
+
+// Pistes features
+var pisteSchema = new Schema({
+	name : String,
+	longEst : Number,
+	libelle : String,
+	details : String,
+	geometry : {
+		type : {type : String},
+		coordinates : []
+	}
+});
+var pistesModel = mongoose.model('pistesLayer',pisteSchema,'pistes')
+
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -45,29 +77,60 @@ router.get('/', function(req, res, next) {
 // Get GeoJSON (initial layers) data
 router.get('/mapjson/:name', function (req,res) {
 	console.log(req.params.name);
-	if(req.params.name) {
-		initLayerModel.findOne({name: req.params.name }, {}, function (err,docs) {
-			res.json(docs);
-		})
+
+	if(req.params.name == 'ouvrages') {
+			ouvragesModel.findOne({name: req.params.name }, {}, function (err,docs) {
+			res.json(docs); })	
 	}
+
+	else if(req.params.name == 'routes') {
+
+			routesModel.findOne({name: req.params.name }, {}, function (err,docs) {
+			res.json(docs); })	
+	}
+	else if(req.params.name == 'pistes') {
+			pistesModel.findOne({name: req.params.name }, {}, function (err,docs) {
+			res.json(docs); })	
+	}
+
+	else {
+			initLayerModel.findOne({name: req.params.name }, {}, function (err,docs) {
+			res.json(docs); })	
+	}
+
 });
 
 
-// Send Ouvrages layer to DB (vary the model variable with if to execute for any layer)
+
+// Send the layer (Ouvrages, Pistes or Routes) to DB 
+// router.post('/form', function (req,res){
+// 	console.log(req.body);
+
+// 	if (returnActiveLayer()=='Ouvrage') {
+// 		var newLayer= new ouvragesModel(req.body);
+// 	};
+// 	else if (returnActiveLayer()=='Route') {
+// 		var newLayer= new routessModel(req.body);
+// 	};
+// 	else if (returnActiveLayer()=='Piste') {
+// 		var newLayer= new pistesModel(req.body);
+// 	};
+
 router.post('/form', function (req,res){
+
 	console.log(req.body);
-	var newOuvrage = new ouvragesModel(req.body);
-	newOuvrage.save(function(err,newobj){
+
+	var newLayer = new ouvragesModel(req.body);
+
+	newLayer.save(function(err,newobj) {
 		if(err){
 			res.send(err.message);
 		}
 		else{
 			res.send(newobj);
-			console.log('success');
 		};
 	});
 });
-
 
 
 module.exports = router;
