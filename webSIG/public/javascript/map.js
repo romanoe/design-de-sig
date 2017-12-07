@@ -234,6 +234,7 @@ function onsaved(arg,msg){
 
 function savedata(callback) {
   var request = window.superagent;
+  console.log(request);
   var ouvragesE = {
     name: document.getElementById("name").value,
     type: document.getElementById("type").value,
@@ -277,6 +278,7 @@ function cancelform() {
     sourceO.removeFeature(tempFeature); // remove the temporary feature drawned
     console.log('nice')
   };
+    sourceO.clear()
     onsaved(null,'cancelled');
 }
 
@@ -321,25 +323,3 @@ else { layer.setVisible(true)}
 }
 
 
-
-
-
-
-
-//returnActiveLayer()==ouvrages && 
-//   var myarray = [];
-//   $('#formOuvrage').find(':input').each(function(){
-//     myarray.push($(this).val());
-//   });
-//
-//   // Put initial values in the form (tFeature.geometry.coordinates[0] if we want in the form the X coordinates of the point drawn)
-//   myarray[0] = tFeature.properties.name;
-//   myarray[1] = tFeature.properties.type;
-//   myarray[2] = tFeature.properties.date_construction;
-//   myarray[3] = tFeature.properties.urgence_interv;
-//   myarray[4] = tFeature.properties.planPDF;
-//     }
-//   }
-//
-//
-//

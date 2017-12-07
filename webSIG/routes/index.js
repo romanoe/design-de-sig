@@ -119,6 +119,7 @@ router.get('/mapjson/:name', function (req,res) {
 router.post('/form', function (req,res){
 
 	console.log(req.body);
+	console.log('nfenfe')
 
 	var newLayer = new ouvragesModel(req.body);
 
