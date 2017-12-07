@@ -4,7 +4,6 @@ var sourceR = new ol.source.Vector({});
 var source = new ol.source.Vector({});
 
 
-
 // Drawing layer for Pistes, Routes and ouvrages
 var ouvrages = new ol.layer.Vector({
         source: sourceO,
@@ -127,17 +126,19 @@ function addInteractions() {
 
   draw.on('drawend', function(evt){
 
-    if (returnActiveLayer()==ouvrages){
     document.getElementById("formOuvrage").style.display = 'block';
-    }
 
-    else if (returnActiveLayer()==routes){
-      document.getElementById("formRoute").style.display = 'block';
-    }
+    // if (returnActiveLayer()==ouvrages){
+    // document.getElementById("formOuvrage").style.display = 'block';
+    // }
 
-    else if (returnActiveLayer()==pistes){
-      document.getElementById("formPiste").style.display = 'block';
-    }
+    // else if (returnActiveLayer()==routes){
+    //   document.getElementById("formRoute").style.display = 'block';
+    // }
+
+    // else if (returnActiveLayer()==pistes){
+    //   document.getElementById("formPiste").style.display = 'block';
+    // }
   });
 
 }
