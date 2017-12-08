@@ -142,6 +142,7 @@ router.get('/form', function (req,res){
 
 
 router.put('/form/updateItem', function (err,res) {
+	console.log(req);
 	var id = req.body.id, body=req.body;
 	ouvragesModel.findByIdAndUpdate(id, body, function (err,docs) {
 		if(err) {

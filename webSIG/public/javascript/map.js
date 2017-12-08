@@ -1,11 +1,12 @@
-var sourceO = new ol.source.Vector({});
+var sourceO = new ol.source.Vector({format:new ol.format.GeoJSON(), projection:'ESPG:4326'});
 var sourceP = new ol.source.Vector({});
 var sourceR = new ol.source.Vector({});
 var source = new ol.source.Vector({});
-
+var tempFeature;
 
 // Drawing layer for Pistes, Routes and ouvrages
 var ouvrages = new ol.layer.Vector({
+        name:'ouvrages',
         source: sourceO,
         style: new ol.style.Style({
           image: new ol.style.Circle({
@@ -20,6 +21,7 @@ var ouvrages = new ol.layer.Vector({
 addFromDB();
 
 var pistes = new ol.layer.Vector({
+        name: 'pistes',
         source: sourceP,
         style: new ol.style.Style({
           fill: new ol.style.Fill({
@@ -33,6 +35,7 @@ var pistes = new ol.layer.Vector({
       });
 
 var routes = new ol.layer.Vector({
+        name: 'routes',
         source: sourceR,
         style: new ol.style.Style({
           fill: new ol.style.Fill({
@@ -115,6 +118,7 @@ snap = new ol.interaction.Snap({source: returnActiveLayer().getSource()}); // Im
 // Define actions when we click on buttons (Add,Modify,Delete)
 document.getElementById('addButton').onclick = setMode;
 document.getElementById('modifyButton').onclick= setMode;
+
 map.on('click',createGeoJSON);
 
 document.getElementById('saveOuvrages').onclick= function() {saveform(onsaved)};
@@ -185,7 +189,7 @@ else if (this.id=='modifyButton') {
 
 
 
-var tempFeature;
+
 
 function createGeoJSON(evt) {
 
@@ -208,7 +212,8 @@ function createGeoJSON(evt) {
 
       var reader = new ol.format.GeoJSON();
       tempFeature = reader.readFeature(tFeature);
-      sourceO.addFeature(tempFeature);
+      //tempFeature.setId('temporary')
+      ouvrages.getSource().addFeature(tempFeature);
 
       document.getElementById("x_coord").value = tFeature.geometry.coordinates[0];
       document.getElementById("y_coord").value = tFeature.geometry.coordinates[1];
@@ -221,8 +226,11 @@ function createGeoJSON(evt) {
   }
 
   if(mode==='mod'){
+    console.log('good babe');
     this.forEachFeatureAtPixel(evt.pixel, function (feature,layer) {
-      if(layer === 'ouvrages') {
+
+      if(layer.get('name') === 'ouvrages') {
+        
         document.getElementById("name").value = feature.getProperties().name;
         document.getElementById("type").value = feature.getProperties().type;
         document.getElementById("date_construction").value = feature.getProperties().date_construction;
@@ -231,7 +239,7 @@ function createGeoJSON(evt) {
         document.getElementById("x_coord").value = feature.getProperties().geometry.getCoordinates()[0];
         document.getElementById("y_coord").value = feature.getProperties().geometry.getCoordinates()[1];
 
-        document.getElementById("formOuvrage").style.visibility="visible";
+        document.getElementById("formOuvrage").style.display = 'block';
 
         editedFeature=feature;
         return;
@@ -249,7 +257,7 @@ function onsaved(arg,msg){
   }
   else{
     if (mode=='add') {tempFeature._id=arg._id;}
-    else if (mode=='mod') {
+    else if (mode=='mod') {s
       editedFeature.setProperties({"name": document.getElementById("name")});
       editedFeature.setProperties({"type": document.getElementById("type")});
       editedFeature.setProperties({"date_construction": document.getElementById("date_construction")});
@@ -271,7 +279,7 @@ function onsaved(arg,msg){
 function savedata(callback) {
   var request = window.superagent;
   console.log(request);
-  var ouvrages = {
+  var new_ouvrage = {
     name: document.getElementById("name").value,
     type: document.getElementById("type").value,
     date_construction: document.getElementById("date_construction").value,
@@ -281,12 +289,12 @@ function savedata(callback) {
       document.getElementById("x_coord").value,
       document.getElementById("y_coord").value ]},
     };
-    console.log(ouvrages)
+    console.log(new_ouvrage)
 
    if (mode ==='add') {
     request
       .post('/form')
-      .send(ouvrages)
+      .send(new_ouvrage)
       .end(function(err,res) {
         if(err) {
           return callback(null, 'Erreur de connexion au serveur, ' + err.message);
@@ -303,7 +311,7 @@ function savedata(callback) {
    else if (mode==='mod') {
     request
       .put('/form/updateItem')
-      .send(ouvrages)
+      .send(new_ouvrage)
       .end(function (err,res) {
         if (err) {
           return callback(null, 'Erreur de connexion au serveur, ' + err.message);
@@ -327,10 +335,11 @@ function saveform(callback) {
 // If we click on "Cancel" on the form
 function cancelform() {
   if (mode=='add') {
-    sourceO.removeFeature(tempFeature); // remove the temporary feature drawned
-    console.log('nice')
+    console.log(sourceO.getFeatures());
+    sourceO.removeFeature(tempFeature);
+    console.log(sourceO)
   };
-    sourceO.clear();
+
     editedFeature=null;
     onsaved(null,'cancelled');
 }
