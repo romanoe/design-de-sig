@@ -3,6 +3,9 @@ var sourceP = new ol.source.Vector({});
 var sourceR = new ol.source.Vector({});
 var source = new ol.source.Vector({});
 var tempFeature;
+var lastFeature;
+var select = new ol.interaction.Select();
+var selectedFeatureID;
 
 // Drawing layer for Pistes, Routes and ouvrages
 var ouvrages = new ol.layer.Vector({
@@ -118,6 +121,7 @@ snap = new ol.interaction.Snap({source: returnActiveLayer().getSource()}); // Im
 // Define actions when we click on buttons (Add,Modify,Delete)
 document.getElementById('addButton').onclick = setMode;
 document.getElementById('modifyButton').onclick= setMode;
+document.getElementById('deleteButton').onclick= setMode;
 
 map.on('click',createGeoJSON);
 
@@ -129,6 +133,8 @@ function addInteractions() {
     draw = new ol.interaction.Draw({
     source: returnActiveLayer().getSource(),
     type: returnType()
+
+
   });
 
 
@@ -136,6 +142,7 @@ function addInteractions() {
 
     document.getElementById("formOuvrage").style.display = 'block';
 
+    lastFeature = evt.feature;
     // if (returnActiveLayer()==ouvrages){
     // document.getElementById("formOuvrage").style.display = 'block';
     // }
@@ -152,12 +159,17 @@ function addInteractions() {
 }
 
 
+//Gestion des interactions
+
+
 //Gestion des boutons add et modify
 let mode = 'none';
 function setMode() {
 
   if(this.id == 'addButton') {
+
     document.getElementById('modifyButton').style.color='black';
+    document.getElementById('deleteButton').style.color='black';
 
     if(mode=='add') {
       mode = 'none';
@@ -173,13 +185,28 @@ function setMode() {
 }
 
 else if (this.id=='modifyButton') {
+
   document.getElementById('addButton').style.color='black';
+  document.getElementById('deleteButton').style.color='black';
+
   if (mode=='mod'){
     mode = 'none';
     this.style.color='black';
 
   } else {
     mode = 'mod';
+    this.style.color='red';
+  }
+} else if (this.id=='deleteButton') {
+
+  document.getElementById('addButton').style.color='black';
+  document.getElementById('modifyButton').style.color='black';
+
+  if (mode=='del') {
+    mode='none';
+    this.style.color='black';
+  } else {
+    mode = 'del';
     this.style.color='red';
   }
 }
@@ -213,7 +240,7 @@ function createGeoJSON(evt) {
       var reader = new ol.format.GeoJSON();
       tempFeature = reader.readFeature(tFeature);
       //tempFeature.setId('temporary')
-      ouvrages.getSource().addFeature(tempFeature);
+      //ouvrages.getSource().addFeature(tempFeature);
 
       document.getElementById("x_coord").value = tFeature.geometry.coordinates[0];
       document.getElementById("y_coord").value = tFeature.geometry.coordinates[1];
@@ -230,7 +257,7 @@ function createGeoJSON(evt) {
     this.forEachFeatureAtPixel(evt.pixel, function (feature,layer) {
 
       if(layer.get('name') === 'ouvrages') {
-        
+
         document.getElementById("name").value = feature.getProperties().name;
         document.getElementById("type").value = feature.getProperties().type;
         document.getElementById("date_construction").value = feature.getProperties().date_construction;
@@ -246,6 +273,19 @@ function createGeoJSON(evt) {
       }
     });
   }
+
+  if(mode == 'del') {
+
+    //Enable feature selection
+    map.addInteraction(select);
+
+    //Get selected feature
+
+    //Open delete form
+    document.getElementById('formDeleteOuvrages').style.display='block';
+
+  }
+
 }
 
 
@@ -331,20 +371,25 @@ function saveform(callback) {
 
 
 
-
 // If we click on "Cancel" on the form
 function cancelform() {
-  if (mode=='add') {
-    console.log(sourceO.getFeatures());
-    sourceO.removeFeature(tempFeature);
-    console.log(sourceO)
-  };
 
+  if (mode=='add') {
+    removeLastFeature();
+  }
     editedFeature=null;
     onsaved(null,'cancelled');
 }
 
 
+//Function remove last feature called with cancelform
+function removeLastFeature() {
+
+if (lastFeature) {
+  sourceO.removeFeature(lastFeature);
+}
+
+}
 
 
 // Add layers from the DB (created by the user)
@@ -378,15 +423,11 @@ function addFromDB() {
         };
         var reader = new ol.format.GeoJSON();
         var olFeature = reader.readFeature(geojsonFeature);
-        sourceO.addFeature(olFeature); //add to Ouvrages layer 
+        sourceO.addFeature(olFeature); //add to Ouvrages layer
 
           }
     });
 }
-
-
-
-
 
 
 
@@ -403,6 +444,13 @@ addInteractions();
 
 
 
+function closeFormDelete(element) {
+
+  if (element.style.display =='block') {
+          element.style.display = 'none';
+  }
+}
+
 
 function closeForm() {
   if (document.getElementById("formOuvrage").style.display == 'block'){
@@ -416,6 +464,7 @@ function closeForm() {
   if (returnActiveLayer()==pistes &&  document.getElementById("formPiste").style.display == 'block'){
             document.getElementById("formPiste").style.display = 'none';
   }
+
 }
 
 
@@ -426,5 +475,3 @@ function hideShow(layer) {
     layer.setVisible(false)}
 else { layer.setVisible(true)}
 }
-
-

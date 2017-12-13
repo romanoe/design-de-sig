@@ -104,3 +104,15 @@ button#addButton {
 	color:black;
 	dispalay:inline-block;
 }
+
+div#formDeleteOuvrages {
+	position:absolute;
+	background-color: #396173;
+	color: white;
+	width: 350px;
+	padding: 0px 10px 10px;
+	border-radius: 5px;
+	top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+}
