@@ -38,21 +38,36 @@ var ouvrageSchema = new Schema({
 var ouvragesModel = mongoose.model('ouvragesLayer',ouvrageSchema,'ouvrages')
 
 
-// Routes features
+// Routes features (take features from provided geojson)
 var routeSchema = new Schema({
-	name : String,
-	longEst : Number,
-	libelle : String,
-	details : String,
-	revetement : String,
+	route : String,
+	origine : String,
+	fin : String,
+	code : String,
+	longueur : Number,
 	classe : String,
-	traficMoyen : Number,
+	type : String,
 	geometry : {
 		type : {type : String},
 		coordinates : []
 	}
 });
 var routesModel = mongoose.model('routesLayer',routeSchema,'routes') // model named routesLayer and constructed from the schema routeSchema
+
+// // Add routes geojson to mongodb
+// var fs = require('fs');
+// var mydocuments = fs.readFile('routesLL.geojson', 'utf8', function (err, data) {
+// 	console.log(mydocuments);
+
+// 	try {
+// 	   routesModel.collection.insertMany(data);
+// 	} catch (err) {
+// 	   console.log(err);
+// 	}
+
+// });
+
+
 
 // Pistes features
 var pisteSchema = new Schema({
@@ -118,8 +133,6 @@ router.get('/mapjson/:name', function (req,res) {
 
 router.post('/form', function (req,res){
 
-	console.log(req.body);
-
 	var newLayer = new ouvragesModel(req.body);
 
 	newLayer.save(function(err,newobj) {
@@ -141,10 +154,22 @@ router.get('/form', function (req,res){
 });
 
 
-router.put('/form/updateItem', function (err,res) {
-	console.log(req);
-	var id = req.body.id, body=req.body;
-	ouvragesModel.findByIdAndUpdate(id, body, function (err,docs) {
+router.put('/form/updateItem', function (req,res) {
+
+	ouvragesModel.findByIdAndUpdate(req.body.id, req.body, function (err,docs) {
+		if(err) {
+			res.send(err.message);
+		}
+		else {
+			res.send('OK');
+		};
+	});
+});
+
+
+router.delete('/form/deleteItem', function (req,res) {
+
+	ouvragesModel.findByIdAndRemove(req.body.id, function (err,docs) {
 		if(err) {
 			res.send(err.message);
 		}

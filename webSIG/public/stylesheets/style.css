@@ -91,18 +91,20 @@ left:50%;
 button#modifyButton {
 	color:black;
 	display:block;
-	margin-bottom: 8px;
+	margin-bottom: 1px;
 }
 
 
 button#deleteButton {
 	color:black;
-	dispalay:block;
+	display:block;
+	margin-bottom: 1px;
 }
 
 button#addButton {
 	color:black;
-	dispalay:inline-block;
+	display:inline-block;
+	margin-bottom: 1px;
 }
 
 div#formDeleteOuvrages {

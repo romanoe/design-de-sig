@@ -93,7 +93,6 @@ var map = new ol.Map({
 
 
 
-
 var draw, snap; // global so we can remove them later
 var typeSelect = document.getElementById('type'); // save in a variable the selected element in the dropdown menu (Ouvrage, Piste or Route)
 
@@ -127,6 +126,8 @@ map.on('click',createGeoJSON);
 
 document.getElementById('saveOuvrages').onclick= function() {saveform(onsaved)};
 document.getElementById('annulerOuvrages').onclick= cancelform;
+document.getElementById('saveDeleteOuvrages').onclick= function() {saveform(onsaved)};
+document.getElementById('annulerDeleteOuvrages').onclick= cancelform;
 
 
 function addInteractions() {
@@ -225,6 +226,7 @@ function createGeoJSON(evt) {
       var tFeature = {
         'type' : 'Feature',
         'properties' :{
+          'id':'',
           'name':'',
           'type':'',
           'date_construction':'',
@@ -242,6 +244,7 @@ function createGeoJSON(evt) {
       //tempFeature.setId('temporary')
       //ouvrages.getSource().addFeature(tempFeature);
 
+
       document.getElementById("x_coord").value = tFeature.geometry.coordinates[0];
       document.getElementById("y_coord").value = tFeature.geometry.coordinates[1];
       document.getElementById("name").value = tFeature.properties.name;
@@ -253,11 +256,13 @@ function createGeoJSON(evt) {
   }
 
   if(mode==='mod'){
-    console.log('good babe');
+    console.log('mode modify');
     this.forEachFeatureAtPixel(evt.pixel, function (feature,layer) {
 
       if(layer.get('name') === 'ouvrages') {
+        console.log(feature.getProperties().date_construction);
 
+        document.getElementById("id").value = feature.getProperties().id;
         document.getElementById("name").value = feature.getProperties().name;
         document.getElementById("type").value = feature.getProperties().type;
         document.getElementById("date_construction").value = feature.getProperties().date_construction;
@@ -265,6 +270,7 @@ function createGeoJSON(evt) {
         document.getElementById("plan_PDF").value = feature.getProperties().plan_PDF;
         document.getElementById("x_coord").value = feature.getProperties().geometry.getCoordinates()[0];
         document.getElementById("y_coord").value = feature.getProperties().geometry.getCoordinates()[1];
+
 
         document.getElementById("formOuvrage").style.display = 'block';
 
@@ -276,18 +282,22 @@ function createGeoJSON(evt) {
 
   if(mode == 'del') {
 
+  this.forEachFeatureAtPixel(evt.pixel, function (feature,layer) {
+
+    console.log('mode delete');
+
     //Enable feature selection
     map.addInteraction(select);
 
     //Get selected feature
-
+    document.getElementById("id").value = feature.getProperties().id;
     //Open delete form
     document.getElementById('formDeleteOuvrages').style.display='block';
 
-  }
-
+  });
 }
 
+}
 
 
 
@@ -296,19 +306,22 @@ function onsaved(arg,msg){
     console.log(msg);
   }
   else{
+    console.log(mode);
     if (mode=='add') {tempFeature._id=arg._id;}
-    else if (mode=='mod') {s
-      editedFeature.setProperties({"name": document.getElementById("name")});
-      editedFeature.setProperties({"type": document.getElementById("type")});
-      editedFeature.setProperties({"date_construction": document.getElementById("date_construction")});
-      editedFeature.setProperties({"urgence_interv": document.getElementById("urgence_interv")});
-      editedFeature.setProperties({"plan_PDF": document.getElementById("plan_PDF")});
+    else if (mode=='mod') {
+
+      editedFeature.setProperties({"name": document.getElementById("name").value});
+      editedFeature.setProperties({"type": document.getElementById("type").value});
+      editedFeature.setProperties({"date_construction": document.getElementById("date_construction").value});
+      editedFeature.setProperties({"urgence_interv": document.getElementById("urgence_interv").value});
+      editedFeature.setProperties({"plan_PDF": document.getElementById("plan_PDF").value});
 
       var geom = new ol.geom.Point([document.getElementById("x_coord").value, document.getElementById("y_coord").value ]);
       editedFeature.setGeometry(geom);
       editedFeature=null;
 
     }
+
   }
     closeForm();
 }
@@ -318,8 +331,8 @@ function onsaved(arg,msg){
 
 function savedata(callback) {
   var request = window.superagent;
-  console.log(request);
   var new_ouvrage = {
+    id: document.getElementById("id").value,
     name: document.getElementById("name").value,
     type: document.getElementById("type").value,
     date_construction: document.getElementById("date_construction").value,
@@ -329,13 +342,14 @@ function savedata(callback) {
       document.getElementById("x_coord").value,
       document.getElementById("y_coord").value ]},
     };
+
     console.log(new_ouvrage)
 
    if (mode ==='add') {
     request
       .post('/form')
       .send(new_ouvrage)
-      .end(function(err,res) {
+      .end(function (err,res) {
         if(err) {
           return callback(null, 'Erreur de connexion au serveur, ' + err.message);
         }
@@ -349,6 +363,7 @@ function savedata(callback) {
    }
 
    else if (mode==='mod') {
+
     request
       .put('/form/updateItem')
       .send(new_ouvrage)
@@ -359,7 +374,28 @@ function savedata(callback) {
         if (res.status != 200) {
           return callback(null, res.text);
         };
+
         callback('updated');
+
+      });
+   }
+
+   else if (mode==='del') {
+    console.log('try to delete')
+    request
+      .delete('/form/deleteItem')
+      .send(new_ouvrage)
+      .end(function (err,res) {
+        if (err) {
+          return callback(null, 'Erreur de connexion au serveur, ' + err.message);
+        }
+        if (res.status != 200) {
+          return callback(null, res.text);
+        };
+        console.log(res.text);
+        callback('deleted');
+
+
       });
    }
  }
@@ -409,7 +445,7 @@ function addFromDB() {
         var geojsonFeature = {
           'type' : 'Feature',
           'properties' :{
-            'id': data[i].id,
+            'id': data[i]._id,
             'name': data[i].name,
             'type': data[i].type,
             'date_construction': data[i].date_construction,
@@ -463,6 +499,10 @@ function closeForm() {
 
   if (returnActiveLayer()==pistes &&  document.getElementById("formPiste").style.display == 'block'){
             document.getElementById("formPiste").style.display = 'none';
+  }
+
+  if (document.getElementById("formDeleteOuvrages").style.display == 'block'){
+            document.getElementById("formDeleteOuvrages").style.display = 'none';
   }
 
 }

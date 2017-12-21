@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://openlayers.org/en/v4.5.0/css/ol.css" type="text/css">
     <script src="https://openlayers.org/en/v4.5.0/build/ol.js"></script>
     <script src="./javascript/superagent.js"></script>
+    <script src="./javascript/moment.js"></script>
     <script type="text/javascript" src="./javascript/map.js" defer></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel='stylesheet' type="text/css" href="./stylesheets/style.css">
@@ -28,11 +29,13 @@
        <option value="Piste">Piste</option>
        <option value="Ouvrage">Ouvrage</option>
      </select>
+     <br>
+    <div class='group'>
      <button type="button" name="button" class='modification' id='addButton'>Ajouter</button>
      <button type="button" name="button" class='modification' id='modifyButton'>Modifier une entité</button>
      <button type="button" name="button" class='modification' id='deleteButton'>Effacer une entité</button>
-
-   </form>
+   </div>
+</form>
 
 
    <div class="card w-50">
@@ -46,9 +49,10 @@
 
    <div class="card w-50" id ="formDeleteOuvrages" style="display:none">
       <div class="card-body">
-        <h5>Êtes-vous sùre de voulouir effacer l'entité sélectionnée?</h5></h5>
-        <button type="button" name="button" id='confirmDel'>Oui</button>
-        <button type="button" name="button" id='annullerDel'>Annuller</button>
+        <h5>Êtes-vous sûr de vouloir effacer l'entité sélectionnée?</h5></h5>
+        <input type='text' id='id' class="suggest_field form-control" disabled placeholder="ID">
+        <button type="button" id='saveDeleteOuvrages'>Oui</button>
+        <button type="button" id='annulerDeleteOuvrages'>Annuler</button>
     </div>
    </div>
 
@@ -118,7 +122,7 @@
           <button type="button" class="close" aria-label="Close" onclick="cancelform()"><span aria-hidden="true">&times;</span></button>
             </div>
             </div>
-          <!-- <input type='text' id='id' class="suggest_field form-control" placeholder="ID"> -->
+          <input type='text' id='id' class="suggest_field form-control" disabled placeholder="ID">
           <input type='number' id='x_coord' class="suggest_field form-control" placeholder="Coordonée X">
           <input type='number' id='y_coord' class="suggest_field form-control" placeholder="Coordonée Y">
           <input type='text' id='name' class="suggest_field form-control" placeholder="Numero">
