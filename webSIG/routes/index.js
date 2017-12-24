@@ -25,11 +25,14 @@ var initLayerModel = mongoose.model('initialLayers',initLayerSchema,'initial_lay
 
 // Ouvrages features
 var ouvrageSchema = new Schema({
-	name : String,
 	type : String,
-	date_construction : Date,
-	urgence_interv : Number,
-	plan_PDF : String,
+	properties : {
+		nameO : String,
+		typeO : String,
+		date_constructionO : String,
+		urgence_intervO : Number,
+		plan_PDFO : String,
+	},
 	geometry : {
 		type : {type : String},
 		coordinates : []
@@ -40,13 +43,15 @@ var ouvragesModel = mongoose.model('ouvragesLayer',ouvrageSchema,'ouvrages')
 
 // Routes features (take features from provided geojson)
 var routeSchema = new Schema({
-	route : String,
-	origine : String,
-	fin : String,
-	code : String,
-	longueur : Number,
-	classe : String,
-	type : String,
+	properties : {
+		Route : String,
+		Origine : String,
+		Fin : String,
+		Code : String,
+		Longueur : Number,
+		Classe : String,
+		Type : String,
+	},
 	geometry : {
 		type : {type : String},
 		coordinates : []
@@ -54,27 +59,22 @@ var routeSchema = new Schema({
 });
 var routesModel = mongoose.model('routesLayer',routeSchema,'routes') // model named routesLayer and constructed from the schema routeSchema
 
-// // Add routes geojson to mongodb
-// var fs = require('fs');
-// var mydocuments = fs.readFile('routesLL.geojson', 'utf8', function (err, data) {
-// 	console.log(mydocuments);
-
-// 	try {
-// 	   routesModel.collection.insertMany(data);
-// 	} catch (err) {
-// 	   console.log(err);
-// 	}
-
-// });
-
 
 
 // Pistes features
 var pisteSchema = new Schema({
-	name : String,
-	longEst : Number,
-	libelle : String,
-	details : String,
+	properties : {
+		Piste : String,
+		Origine : String,
+		Fin : String,
+		Longueur : Number,
+		Type: String,
+		Etat: String,
+		AnnéeCons: String,
+		BureauEtud: String,
+		Entreprise: String,
+		Observation: String,
+	},
 	geometry : {
 		type : {type : String},
 		coordinates : []
@@ -91,27 +91,8 @@ router.get('/', function(req, res, next) {
 
 // Get GeoJSON (initial layers) data
 router.get('/mapjson/:name', function (req,res) {
-	console.log(req.params.name);
-
-	if(req.params.name == 'ouvrages') {
-			ouvragesModel.findOne({name: req.params.name }, {}, function (err,docs) {
-			res.json(docs); })	
-	}
-
-	else if(req.params.name == 'routes') {
-
-			routesModel.findOne({name: req.params.name }, {}, function (err,docs) {
-			res.json(docs); })	
-	}
-	else if(req.params.name == 'pistes') {
-			pistesModel.findOne({name: req.params.name }, {}, function (err,docs) {
-			res.json(docs); })	
-	}
-
-	else {
-			initLayerModel.findOne({name: req.params.name }, {}, function (err,docs) {
-			res.json(docs); })	
-	}
+	initLayerModel.findOne({name: req.params.name }, {}, function (err,docs) {
+	res.json(docs); })	
 
 });
 
@@ -146,9 +127,20 @@ router.post('/form', function (req,res){
 });
 
 
-router.get('/form', function (req,res){
-	console.log(req.params.name);
+router.get('/ouvragesfromDB', function (req,res){
 	ouvragesModel.find({}, function(err,docs) {
+		res.send(docs);
+	});
+});
+
+router.get('/routesfromDB', function (req,res){
+	routesModel.find({}, function(err,docs) {
+		res.send(docs);
+	});
+});
+
+router.get('/pistesfromDB', function (req,res){
+	pistesModel.find({}, function(err,docs) {
 		res.send(docs);
 	});
 });

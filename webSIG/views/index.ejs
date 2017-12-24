@@ -8,9 +8,11 @@
     <script src="https://openlayers.org/en/v4.5.0/build/ol.js"></script>
     <script src="./javascript/superagent.js"></script>
     <script src="./javascript/moment.js"></script>
-    <script type="text/javascript" src="./javascript/map.js" defer></script>
+    <script src="./javascript/proj4.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel='stylesheet' type="text/css" href="./stylesheets/style.css">
+    <script type="text/javascript" src="./javascript/map_creation.js" defer></script>
+    <script type="text/javascript" src="./javascript/map.js" defer></script>
 
     <title>Web SIG</title>
   </head>
@@ -23,13 +25,13 @@
 
 <header>Modifications
 </header>
-     <label>Ajoutez une entité &nbsp;</label>
+<!--      <label>Ajoutez une entité &nbsp;</label>
      <select id="type">
        <option value="Route">Route</option>
        <option value="Piste">Piste</option>
        <option value="Ouvrage">Ouvrage</option>
      </select>
-     <br>
+     <br> -->
     <div class='group'>
      <button type="button" name="button" class='modification' id='addButton'>Ajouter</button>
      <button type="button" name="button" class='modification' id='modifyButton'>Modifier une entité</button>
@@ -50,63 +52,11 @@
    <div class="card w-50" id ="formDeleteOuvrages" style="display:none">
       <div class="card-body">
         <h5>Êtes-vous sûr de vouloir effacer l'entité sélectionnée?</h5></h5>
-        <input type='text' id='id' class="suggest_field form-control" disabled placeholder="ID">
+        <input type='text' id='idO' class="suggest_field form-control" disabled placeholder="ID">
         <button type="button" id='saveDeleteOuvrages'>Oui</button>
         <button type="button" id='annulerDeleteOuvrages'>Annuler</button>
     </div>
    </div>
-
-   <div class="card w-50" id = "formRoute" style="display:none">
-      <div class="card-body" >
-        <form>
-         <div class="row">
-            <div class="col-sm-10">
-          <header class="w3-container w3-white">
-          <h1>Routes</h1>
-          </header>
-            </div>
-            <div class="col-sm-2">
-          <button type="button" class="close" aria-label="Close" onclick="closeForm()"><span aria-hidden="true">&times;</span></button>
-            </div>
-            </div>
-          <input type='text' class="suggest_field form-control" placeholder="Numero">
-          <input type='text' class="suggest_field form-control" placeholder="Libellé">
-          <input type='text' class="suggest_field form-control" placeholder="Longueur estimée">
-          <input type='text' class="suggest_field form-control" placeholder="Revêtement">
-          <input type='text' class="suggest_field form-control" placeholder="Classe">
-          <input type='text' class="suggest_field form-control" placeholder="Trafic moyen">
-          <input type='text' class="suggest_field form-control" placeholder="Urgence intervention">
-          <input type='textarea' class="suggest_field form-control" placeholder="Détails">
-
-          <button type="button" name="Sauvegarder"  id="save">Sauvegarder</button>
-          <button type="button" name="Cancel"  id="annuler">Annuler</button>
-        </form>
-      </div>
-    </div>
-
-   <div class="card w-50" id = "formPiste" style="display:none">
-      <div class="card-body"  >
-        <form>
-         <div class="row">
-            <div class="col-sm-10">
-          <header class="w3-container w3-white">
-          <h1>Pistes</h1>
-          </header>
-            </div>
-            <div class="col-sm-2">
-          <button type="button" class="close" aria-label="Close" onclick="closeForm()"><span aria-hidden="true">&times;</span></button>
-            </div>
-            </div>
-          <input type='text' class="suggest_field form-control" placeholder="Numero">
-          <input type='text' class="suggest_field form-control" placeholder="Libellé">
-          <input type='text' class="suggest_field form-control" placeholder="Longueur estimée">
-          <input type='text' class="suggest_field form-control" placeholder="Urgence intervention">
-          <input type='textarea' class="suggest_field form-control" placeholder="Détails">
-          <button type="button" name="Sauvegarder"  id="save">Sauvegarder</button>
-          <button type="button" name="Cancel"  id="annuler">Annuler</button>
-        </form>
-      </div>
-</div>
 
 
 <div class="card w-50" id = "formOuvrage" style="display:none">
@@ -122,14 +72,14 @@
           <button type="button" class="close" aria-label="Close" onclick="cancelform()"><span aria-hidden="true">&times;</span></button>
             </div>
             </div>
-          <input type='text' id='id' class="suggest_field form-control" disabled placeholder="ID">
+          <input type='text' id='idO' class="suggest_field form-control" disabled placeholder="ID">
           <input type='number' id='x_coord' class="suggest_field form-control" placeholder="Coordonée X">
           <input type='number' id='y_coord' class="suggest_field form-control" placeholder="Coordonée Y">
-          <input type='text' id='name' class="suggest_field form-control" placeholder="Numero">
-          <input type='text' id='type' class="suggest_field form-control" placeholder="Type">
-          <input type='date' id='date_construction' class="suggest_field form-control" placeholder="Date de construction">
-          <input type='number' id='urgence_interv' class="suggest_field form-control" placeholder="Urgence Intervention">
-          <input type='text' id='plan_PDF' class="suggest_field form-control" placeholder="Plan PDF">
+          <input type='text' id='nameO' class="suggest_field form-control" placeholder="Numero">
+          <input type='text' id='typeO' class="suggest_field form-control" placeholder="Type">
+          <input type='date' id='date_constructionO' class="suggest_field form-control" placeholder="Date de construction">
+          <input type='number' id='urgence_intervO' class="suggest_field form-control" placeholder="Urgence Intervention">
+          <input type='text' id='plan_PDFO' class="suggest_field form-control" placeholder="Plan PDF">
         </form>
 
         <div class="container">
