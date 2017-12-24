@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel='stylesheet' type="text/css" href="./stylesheets/style.css">
     <script type="text/javascript" src="./javascript/map_creation.js" defer></script>
-    <script type="text/javascript" src="./javascript/map.js" defer></script>
+    <script type="text/javascript" src="./javascript/interactions.js" defer></script>
+    <script type="text/javascript" src="./javascript/save_form.js" defer></script>
 
     <title>Web SIG</title>
   </head>
@@ -23,19 +24,12 @@
 
 <form class="form-inline" id="selector">
 
-<header>Modifications
+<header>
 </header>
-<!--      <label>Ajoutez une entité &nbsp;</label>
-     <select id="type">
-       <option value="Route">Route</option>
-       <option value="Piste">Piste</option>
-       <option value="Ouvrage">Ouvrage</option>
-     </select>
-     <br> -->
     <div class='group'>
-     <button type="button" name="button" class='modification' id='addButton'>Ajouter</button>
-     <button type="button" name="button" class='modification' id='modifyButton'>Modifier une entité</button>
-     <button type="button" name="button" class='modification' id='deleteButton'>Effacer une entité</button>
+     <button type="button" name="button" class="btn btn-default" id='addButton'>Ajouter</button>
+     <button type="button" name="button" class="btn btn-default" id='modifyButton'>Modifier une entité</button>
+     <button type="button" name="button" class="btn btn-default" id='deleteButton'>Effacer une entité</button>
    </div>
 </form>
 
@@ -44,7 +38,6 @@
    	  <div class="card-body">
    	    <h4 class="card-title">Selectionnez les couches que vous désirez afficher</h4>
    	    	<input type="checkbox" onclick="hideShow(limitesAdm)" checked> Limites Administratives</br>
-   		    <input type="checkbox" onclick="hideShow(roadsNetwork)" checked> Réseau routier</br>
    	  </div>
    	</div>
 
@@ -52,9 +45,9 @@
    <div class="card w-50" id ="formDeleteOuvrages" style="display:none">
       <div class="card-body">
         <h5>Êtes-vous sûr de vouloir effacer l'entité sélectionnée?</h5></h5>
-        <input type='text' id='idO' class="suggest_field form-control" disabled placeholder="ID">
-        <button type="button" id='saveDeleteOuvrages'>Oui</button>
-        <button type="button" id='annulerDeleteOuvrages'>Annuler</button>
+        <input type='text' id='idDel' class="suggest_field form-control" disabled placeholder="ID">
+        <button type="button" class="btn btn-default" id='saveDeleteOuvrages'>Oui</button>
+        <button type="button" class="btn btn-default" id='annulerDeleteOuvrages'>Annuler</button>
     </div>
    </div>
 
@@ -72,7 +65,7 @@
           <button type="button" class="close" aria-label="Close" onclick="cancelform()"><span aria-hidden="true">&times;</span></button>
             </div>
             </div>
-          <input type='text' id='idO' class="suggest_field form-control" disabled placeholder="ID">
+          <input type='text' id='id' class="suggest_field form-control" disabled placeholder="ID">
           <input type='number' id='x_coord' class="suggest_field form-control" placeholder="Coordonée X">
           <input type='number' id='y_coord' class="suggest_field form-control" placeholder="Coordonée Y">
           <input type='text' id='nameO' class="suggest_field form-control" placeholder="Numero">
@@ -83,8 +76,8 @@
         </form>
 
         <div class="container">
-          <button type="button" id="saveOuvrages">Sauvegarder</button>
-          <button type="button" id="annulerOuvrages">Annuler</button>
+          <button type="button" class="btn btn-default" id="saveOuvrages">Sauvegarder</button>
+          <button type="button" class="btn btn-default" id="annulerOuvrages">Annuler</button>
         </div>
       </div>
 </div>

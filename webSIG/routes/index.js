@@ -97,21 +97,6 @@ router.get('/mapjson/:name', function (req,res) {
 });
 
 
-
-// Send the layer (Ouvrages, Pistes or Routes) to DB 
-// router.post('/form', function (req,res){
-// 	console.log(req.body);
-
-// 	if (returnActiveLayer()=='Ouvrage') {
-// 		var newLayer= new ouvragesModel(req.body);
-// 	};
-// 	else if (returnActiveLayer()=='Route') {
-// 		var newLayer= new routessModel(req.body);
-// 	};
-// 	else if (returnActiveLayer()=='Piste') {
-// 		var newLayer= new pistesModel(req.body);
-// 	};
-
 router.post('/form', function (req,res){
 
 	var newLayer = new ouvragesModel(req.body);
@@ -148,7 +133,7 @@ router.get('/pistesfromDB', function (req,res){
 
 router.put('/form/updateItem', function (req,res) {
 
-	ouvragesModel.findByIdAndUpdate(req.body.id, req.body, function (err,docs) {
+	ouvragesModel.findByIdAndUpdate(req.body.properties.id, req.body, function (err,docs) {
 		if(err) {
 			res.send(err.message);
 		}
@@ -161,7 +146,7 @@ router.put('/form/updateItem', function (req,res) {
 
 router.delete('/form/deleteItem', function (req,res) {
 
-	ouvragesModel.findByIdAndRemove(req.body.id, function (err,docs) {
+	ouvragesModel.findByIdAndRemove(req.body.properties.id, function (err,docs) {
 		if(err) {
 			res.send(err.message);
 		}
