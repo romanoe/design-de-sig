@@ -141,7 +141,7 @@ function createGeoJSON(evt) {
 
         editedFeature=feature;
         return;
-      
+
     });
   }
 
@@ -213,6 +213,6 @@ function closeForm() {
 // Funtion to display or not the geojson layers (use for limitesAdm and roadsNetwork)
 function hideShow(layer) {
   if(layer.getVisible(true)) {
-    layer.setVisible(false)}
+    layer.setVisible(false);}
 else { layer.setVisible(true)}
 }

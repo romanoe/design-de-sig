@@ -81,6 +81,7 @@ var limitesAdm = new ol.layer.Vector({
 
 
 
+
 function loadData(url,layerSrc,callback) {
   var request = window.superagent;
   request
@@ -127,13 +128,13 @@ function loadData(url,layerSrc,callback) {
       // Read GeoJSON file for pistes and routes
 
       else {
-  
+
         for (i=0; i<data.length; i++){
 
           var reader = new ol.format.GeoJSON();
           var olFeature = reader.readFeature(data[i], {featureProjection: 'EPSG:3857',
               dataProjection: 'EPSG:4326'});
-   
+
           olFeature.model = data[i];
           olFeatures.push(olFeature);
       };
@@ -148,19 +149,37 @@ function loadData(url,layerSrc,callback) {
 var addFeaturestoSource = function(layerSrc, features, msg) {
   if(msg != null)
     console.log(msg);
-  else 
+  else
     layerSrc.addFeatures(features);
 }
 
+
+
+var bingMapsAerial = new ol.layer.Tile({
+        preload: Infinity,
+        source: new ol.source.BingMaps({
+          key: 'Alif4W4K6gbOy6pYY5XEGKvdwRGAt5cq46GePgEgOQEobUea2kN6F-zXW5HmuZSP',
+          imagerySet: 'Aerial',
+        })
+      });
+
+var layersOSM = new ol.layer.Tile({
+            source: new ol.source.OSM()
+        });
+
+var layers_stamen = new ol.layer.Tile({
+            source: new ol.source.Stamen({layer: 'toner'})
+        });
+
+
+
+var layersGroup = [bingMapsAerial,layers_stamen, layersOSM];
 
 // Create the map and add OSM raster, geojson overlays and drawing layer (ouvrages)
 var map = new ol.Map({
         target: 'map',
         projection: 'EPSG:3857',
-        layers: [new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-          ],
+        layers: layersGroup,
         view: new ol.View({
           renderer:'canvas',
           center:ol.proj.fromLonLat([-1.5338800, 12.3656600]),
@@ -172,3 +191,25 @@ map.addLayer(routes);
 map.addLayer(pistes);
 map.addLayer(ouvrages);
 map.addLayer(limitesAdm);
+
+//Set map type
+var e = document.getElementById("raster");
+
+function changeRaster() {
+  var raster_selected = e.options[e.selectedIndex].value;
+
+  if (raster_selected==='OSM') {
+  layersOSM.setVisible(true);
+  layers_stamen.setVisible(false);
+  bingMapsAerial.setVisible(false);
+}
+  else if (raster_selected==='stamen') {
+    layers_stamen.setVisible(true);
+    layersOSM.setVisible(false);
+    bingMapsAerial.setVisible(false);
+}  else if (raster_selected==='aerial') {
+    bingMapsAerial.setVisible(true);
+    layers_stamen.setVisible(false);
+    layersOSM.setVisible(false);
+}
+}

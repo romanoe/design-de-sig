@@ -118,3 +118,16 @@ div#formDeleteOuvrages {
   left: 50%;
   margin: -100px 0 0 -150px;
 }
+
+div#raster_select {
+	display: block;
+	height: 70PX;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	top:85%;
+}
+
+select#raster {
+	color: black;
+}
