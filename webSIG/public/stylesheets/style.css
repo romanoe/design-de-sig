@@ -124,8 +124,16 @@ div#raster_select {
 	height: 70PX;
 	position: absolute;
 	left: 0;
-	bottom: 0;
-	top:85%;
+	top: 0;
+
+}
+
+div#layer_select {
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+
 }
 
 select#raster {

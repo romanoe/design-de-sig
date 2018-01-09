@@ -80,11 +80,22 @@ function savedata(callback) {
    }
 
    else if (mode==='del') {
+
+    var ouvrage_toDel = {
+    type : 'Feature',
+    properties : {
+      id: document.getElementById("idDel").value,
+    },
+    geometry : {type: "Point", coordinates : [
+      document.getElementById("x_coord").value,
+      document.getElementById("y_coord").value ]},
+    };
+
     console.log('try to delete')
-    console.log(new_ouvrage);
+    console.log(ouvrage_toDel);
     request
       .delete('/form/deleteItem')
-      .send(new_ouvrage)
+      .send(ouvrage_toDel)
       .end(function (err,res) {
         if (err) {
           return callback(null, 'Erreur de connexion au serveur, ' + err.message);
