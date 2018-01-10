@@ -90,21 +90,21 @@ left:50%;
 
 button#modifyButton {
 	color:black;
-	display:block;
 	margin-bottom: 1px;
+	left: 50%;
 }
 
 
 button#deleteButton {
 	color:black;
-	display:block;
 	margin-bottom: 1px;
+	left: 50%;
 }
 
 button#addButton {
 	color:black;
-	display:inline-block;
 	margin-bottom: 1px;
+	left: 50%;
 }
 
 div#formDeleteOuvrages {
@@ -121,11 +121,11 @@ div#formDeleteOuvrages {
 
 div#raster_select {
 	display: block;
-	height: 70PX;
+	height:25PX;
 	position: absolute;
-	left: 0;
-	top: 0;
-
+	right: 40px;
+	top: 95%;
+	width: auto;
 }
 
 div#layer_select {

@@ -41,7 +41,7 @@ function savedata(callback) {
       document.getElementById("y_coord").value ]},
     };
 
-  console.log(new_ouvrage)
+  //console.log(new_ouvrage);
 
    if (mode ==='add') {
     request
@@ -91,8 +91,8 @@ function savedata(callback) {
       document.getElementById("y_coord").value ]},
     };
 
-    console.log('try to delete')
-    console.log(ouvrage_toDel);
+    //console.log('try to delete')
+    //console.log(ouvrage_toDel);
     request
       .delete('/form/deleteItem')
       .send(ouvrage_toDel)
@@ -103,7 +103,7 @@ function savedata(callback) {
         if (res.status != 200) {
           return callback(null, res.text);
         };
-        console.log(res.text);
+        //console.log(res.text);
         callback('deleted');
 
 
@@ -113,10 +113,11 @@ function savedata(callback) {
     refresh();
  }
 
+//Update sourceO
 function refresh(){
   sourceO.clear(true);
-  sourceO.addFeatures(features);
-  console.log(' refresh');
+  //sourceO.addFeatures(features);
+  //console.log(' refresh');
   }
 
 

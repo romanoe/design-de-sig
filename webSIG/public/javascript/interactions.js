@@ -1,23 +1,26 @@
 var draw, snap; // global so we can remove them later
+
 var modify = new ol.interaction.Modify({source: sourceO});
 snap = new ol.interaction.Snap({source: sourceO}); // Implement snapping to connect lines from multiple drawing of routes/pistes
 draw = new ol.interaction.Draw({source: sourceO,type: 'Point'});
 var selectInteraction = new ol.interaction.Select({
     condition: ol.events.condition.singleClick,
-    layers : [ouvrages]
 })
-
+var selectedFeatureID;
+var tempFeature;
+var lastFeature;
 //map.addInteraction(selectInteraction);
 
 //selectInteraction.on("select", deleteFeature, this);
 
-// Define actions when we click on buttons (Add,Modify,Delete)
+// Define actions when we click on buttons (Add,Modify,Delete). Function setMode
 document.getElementById('addButton').onclick = setMode;
 document.getElementById('modifyButton').onclick= setMode;
 document.getElementById('deleteButton').onclick= setMode;
 
 map.on('click',createGeoJSON);
 
+//Button save, cancel functions
 document.getElementById('saveOuvrages').onclick= function() {saveform(onsaved)};
 document.getElementById('annulerOuvrages').onclick= cancelform;
 document.getElementById('saveDeleteOuvrages').onclick= function() {saveform(onsaved)};
@@ -37,12 +40,12 @@ function setMode() {
     if(mode=='add') {
       mode = 'none';
       this.style.color='black';
+      map.removeInteraction(draw);
 
   } else {
     mode = 'add';
     this.style.color='red';
-    //addInteractions();
-    map.addInteraction(modify);
+
     map.addInteraction(draw);
     map.addInteraction(snap);
     draw.on('drawend', function(evt){
@@ -64,6 +67,7 @@ else if (this.id=='modifyButton') {
 
   } else {
     mode = 'mod';
+    //Remove previous interactions
     map.removeInteraction(draw);
     map.addInteraction(modify);
     this.style.color='red';
@@ -79,10 +83,10 @@ else if (this.id=='modifyButton') {
   } else {
 
     mode = 'del';
+    //Remove previous interactions
     map.removeInteraction(draw);
-    //map.addInteraction(modify);
-    //map.addInteraction(snap);
-    map.addInteraction(selectInteraction);
+    map.removeInteraction(modify);
+
 
     this.style.color='red';
   }
@@ -91,7 +95,7 @@ else if (this.id=='modifyButton') {
 
 }
 
-
+//Function createGeoJSON -
 function createGeoJSON(evt) {
 
   if(mode==='add'){
@@ -126,13 +130,11 @@ function createGeoJSON(evt) {
   }
 
   if(mode==='mod'){
-    console.log('mode modify');
+    //console.log('mode modify');
     this.forEachFeatureAtPixel(evt.pixel, function (feature,layer) {
 
-        //console.log(feature.getProperties().date_construction);
-
         document.getElementById("id").value = feature.getProperties().id;
-        console.log(feature.getProperties().nameO);
+        //console.log(feature.getProperties().nameO);
         document.getElementById("nameO").value = feature.getProperties().nameO;
         document.getElementById("typeO").value = feature.getProperties().typeO;
         document.getElementById("date_constructionO").value = feature.getProperties().date_constructionO;
@@ -154,8 +156,8 @@ function createGeoJSON(evt) {
 
   this.forEachFeatureAtPixel(evt.pixel, function (feature,layer) {
 
-    console.log('mode delete');
-
+    //console.log('mode delete');
+    map.addInteraction(selectInteraction);
     //Get selected feature id
     document.getElementById("idDel").value = feature.getProperties().id;
     //Open delete form
@@ -167,7 +169,7 @@ function createGeoJSON(evt) {
 }
 
 
-// If we click on "Cancel" on the form
+// If we click on "Cancel" on the form. And remove last feature because it has not been saved
 function cancelform() {
 
   if (mode=='add') {
@@ -188,17 +190,7 @@ if (lastFeature) {
 }
 
 
-//addInteractions();
-
-
-// function closeFormDelete(element) {
-//
-//   if (element.style.display =='block') {
-//           element.style.display = 'none';
-//   }
-// }
-
-
+//Close form, called when we save the data and cancel our action
 function closeForm() {
   if (document.getElementById("formOuvrage").style.display == 'block'){
             document.getElementById("formOuvrage").style.display = 'none';
@@ -212,7 +204,7 @@ function closeForm() {
 
 
 
-// Funtion to display or not the geojson layers (use for limitesAdm and roadsNetwork)
+// Funtion to display or not the geojson layers (use for limitesAdm, routes and pistes)
 function hideShow(layer) {
   if(layer.getVisible(true)) {
     layer.setVisible(false);}

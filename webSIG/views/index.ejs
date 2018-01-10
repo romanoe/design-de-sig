@@ -22,29 +22,32 @@
 <div id="map"></div>
 
 
-<form class="form-inline" id="selector">
+<form class="form-inline" id="selector" style="width: auto;">
 
 <header>
 </header>
-    <div class='group'>
+    <div class='group' style="width: auto;">
+      <h5>Ajouter, modifier, effacer un ouvrage</h5>
      <button type="button" name="button" class="btn btn-default" id='addButton'>Ajouter</button>
-     <button type="button" name="button" class="btn btn-default" id='modifyButton'>Modifier une entité</button>
-     <button type="button" name="button" class="btn btn-default" id='deleteButton'>Effacer une entité</button>
+     <button type="button" name="button" class="btn btn-default" id='modifyButton'>Modifier</button>
+     <button type="button" name="button" class="btn btn-default" id='deleteButton'>Effacer</button>
    </div>
 </form>
 
 
-   <div class="card w-50" id = "layer_select">
+   <div class="card w-50" id = "layer_select" style="width: auto;">
    	  <div class="card-body">
-   	    <h4 class="card-title">Selectionnez les couches que vous désirez afficher</h4>
+   	    <h5 class="card-title">Selectionnez les couches que vous désirez afficher</h5>
    	    	<input type="checkbox" onclick="hideShow(limitesAdm)" checked> Limites Administratives</br>
+          <input type="checkbox" onclick="hideShow(routes)" checked> Routes</br>
+          <input type="checkbox" onclick="hideShow(pistes)" checked> Pistes</br>
    	  </div>
    	</div>
 
 
    <div class="card w-50" id ="formDeleteOuvrages" style="display:none">
       <div class="card-body">
-        <h5>Êtes-vous sûr de vouloir effacer l'entité sélectionnée?</h5></h5>
+        <h5>Êtes-vous sûr de vouloir effacer l'entité sélectionnée?</h5>
         <input type='text' id='idDel' class="suggest_field form-control" disabled placeholder="ID">
         <button type="button" class="btn btn-default" id='saveDeleteOuvrages'>Oui</button>
         <button type="button" class="btn btn-default" id='annulerDeleteOuvrages'>Annuler</button>
@@ -85,7 +88,7 @@
 <div class="card w-50" id = "raster_select">
       <div class="card-body">
 
-        <h4 display='inline-block'>Fond de carte</h4>
+        Fond de carte
         <select id='raster' display='inline-block' onchange="changeRaster()">
 
                         <option value="OSM" selected='selected'>OSM</option>

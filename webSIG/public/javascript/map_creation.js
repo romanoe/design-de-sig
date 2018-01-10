@@ -21,10 +21,7 @@ var sourceP = new ol.source.Vector({format:new ol.format.GeoJSON(), projection:'
   }});
 
 var source = new ol.source.Vector({});
-var tempFeature;
-var lastFeature;
-var select = new ol.interaction.Select();
-var selectedFeatureID;
+
 
 // Drawing layer for Pistes, Routes and ouvrages
 var ouvrages = new ol.layer.Vector({
@@ -62,7 +59,7 @@ var routes = new ol.layer.Vector({
             color: 'black'
           }),
           stroke: new ol.style.Stroke({
-            color: '#4d4d4d',
+            color: 'red',
             width: 1
           })
         }),
@@ -94,7 +91,7 @@ function loadData(url,layerSrc,callback) {
         return callback(null,null,res.text);
       }
 
-      console.log(url);
+      //console.log(url);
       var olFeatures = [];
       var data = JSON.parse(res.text);
 
@@ -121,7 +118,7 @@ function loadData(url,layerSrc,callback) {
           var reader = new ol.format.GeoJSON();
           var olFeature = reader.readFeature(geojsonFeature);
           sourceO.addFeature(olFeature); //add to Ouvrages layer
-          console.log(olFeature);
+          //console.log(olFeature);
         }
       }
 
@@ -192,6 +189,9 @@ map.addLayer(pistes);
 map.addLayer(ouvrages);
 map.addLayer(limitesAdm);
 
+//Set stamen and satellite invisible. Only OSM basemap  will be displayed
+layers_stamen.setVisible(false);
+bingMapsAerial.setVisible(false);
 //Set basemap type
 var e = document.getElementById("raster");
 
