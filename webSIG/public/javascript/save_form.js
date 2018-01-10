@@ -108,8 +108,16 @@ function savedata(callback) {
 
 
       });
+
    }
+    refresh();
  }
+
+function refresh(){
+  sourceO.clear(true);
+  sourceO.addFeatures(features);
+  console.log(' refresh');
+  }
 
 
 function saveform(callback) {
