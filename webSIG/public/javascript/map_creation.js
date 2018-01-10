@@ -192,7 +192,7 @@ map.addLayer(pistes);
 map.addLayer(ouvrages);
 map.addLayer(limitesAdm);
 
-//Set map type
+//Set basemap type
 var e = document.getElementById("raster");
 
 function changeRaster() {

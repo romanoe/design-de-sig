@@ -1,7 +1,15 @@
 var draw, snap; // global so we can remove them later
 var modify = new ol.interaction.Modify({source: sourceO});
 snap = new ol.interaction.Snap({source: sourceO}); // Implement snapping to connect lines from multiple drawing of routes/pistes
+draw = new ol.interaction.Draw({source: sourceO,type: 'Point'});
+var selectInteraction = new ol.interaction.Select({
+    condition: ol.events.condition.singleClick,
+    layers : [ouvrages]
+})
 
+//map.addInteraction(selectInteraction);
+
+//selectInteraction.on("select", deleteFeature, this);
 
 // Define actions when we click on buttons (Add,Modify,Delete)
 document.getElementById('addButton').onclick = setMode;
@@ -16,25 +24,8 @@ document.getElementById('saveDeleteOuvrages').onclick= function() {saveform(onsa
 document.getElementById('annulerDeleteOuvrages').onclick= cancelform;
 
 
-function addInteractions() {
-    draw = new ol.interaction.Draw({
-    source: sourceO,
-    type: 'Point'
 
-
-  });
-
-  draw.on('drawend', function(evt){
-    document.getElementById("formOuvrage").style.display = 'block';
-    lastFeature = evt.feature;
-  });
-
-}
-
-
-//Gestion des interactions
-
-//Gestion des boutons add et modify
+//Gestion des boutons add,modify and delete
 let mode = 'none';
 function setMode() {
 
@@ -50,9 +41,15 @@ function setMode() {
   } else {
     mode = 'add';
     this.style.color='red';
+    //addInteractions();
     map.addInteraction(modify);
     map.addInteraction(draw);
     map.addInteraction(snap);
+    draw.on('drawend', function(evt){
+      document.getElementById("formOuvrage").style.display = 'block';
+      lastFeature = evt.feature;
+    });
+
   }
 }
 
@@ -67,6 +64,8 @@ else if (this.id=='modifyButton') {
 
   } else {
     mode = 'mod';
+    map.removeInteraction(draw);
+    map.addInteraction(modify);
     this.style.color='red';
   }
 } else if (this.id=='deleteButton') {
@@ -78,7 +77,13 @@ else if (this.id=='modifyButton') {
     mode='none';
     this.style.color='black';
   } else {
+
     mode = 'del';
+    map.removeInteraction(draw);
+    //map.addInteraction(modify);
+    //map.addInteraction(snap);
+    map.addInteraction(selectInteraction);
+
     this.style.color='red';
   }
 }
@@ -151,10 +156,7 @@ function createGeoJSON(evt) {
 
     console.log('mode delete');
 
-    //Enable feature selection
-    map.addInteraction(select);
-
-    //Get selected feature
+    //Get selected feature id
     document.getElementById("idDel").value = feature.getProperties().id;
     //Open delete form
     document.getElementById('formDeleteOuvrages').style.display='block';
@@ -186,15 +188,15 @@ if (lastFeature) {
 }
 
 
-addInteractions();
+//addInteractions();
 
 
-function closeFormDelete(element) {
-
-  if (element.style.display =='block') {
-          element.style.display = 'none';
-  }
-}
+// function closeFormDelete(element) {
+//
+//   if (element.style.display =='block') {
+//           element.style.display = 'none';
+//   }
+// }
 
 
 function closeForm() {
@@ -202,7 +204,7 @@ function closeForm() {
             document.getElementById("formOuvrage").style.display = 'none';
   }
 
-  if (document.getElementById("formDeleteOuvrages").style.display == 'block'){
+  else if (document.getElementById("formDeleteOuvrages").style.display == 'block'){
             document.getElementById("formDeleteOuvrages").style.display = 'none';
   }
 
