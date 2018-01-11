@@ -7,6 +7,7 @@ if ( ol.proj.get('EPSG:32630') ) {
   console.log("FAILED ol.proj.get(): " + 'EPSG:32630');
 }
 
+//Define sources
 var sourceO = new ol.source.Vector({format:new ol.format.GeoJSON(), projection:'EPSG:4326',
   loader : function(extent,resolution,projection) {
     loadData('/ouvragesfromDB',sourceO,function(layerSrc, features) {addFeaturestoSource(layerSrc, features)});
@@ -87,7 +88,7 @@ var limitesAdm = new ol.layer.Vector({
 
 
 
-
+//Load data from the db
 function loadData(url,layerSrc,callback) {
   var request = window.superagent;
   request
@@ -132,7 +133,6 @@ function loadData(url,layerSrc,callback) {
       }
 
       // Read GeoJSON file for pistes and routes
-
       else {
 
         for (i=0; i<data.length; i++){
@@ -160,7 +160,7 @@ var addFeaturestoSource = function(layerSrc, features, msg) {
 }
 
 
-
+//Base map creation
 var bingMapsAerial = new ol.layer.Tile({
         preload: Infinity,
         source: new ol.source.BingMaps({
@@ -178,10 +178,10 @@ var layers_stamen = new ol.layer.Tile({
         });
 
 
-
+//Layer group to add to the map
 var layersGroup = [bingMapsAerial,layers_stamen, layersOSM];
 
-// Create the map and add OSM raster, geojson overlays and drawing layer (ouvrages)
+// Create the map and add basemaps
 var map = new ol.Map({
         target: 'map',
         projection: 'EPSG:3857',
@@ -193,6 +193,7 @@ var map = new ol.Map({
         })
       });
 
+//Add layers to map
 map.addLayer(routes);
 map.addLayer(pistes);
 map.addLayer(ouvrages);
@@ -201,7 +202,8 @@ map.addLayer(limitesAdm);
 //Set stamen and satellite invisible. Only OSM basemap  will be displayed
 layers_stamen.setVisible(false);
 bingMapsAerial.setVisible(false);
-//Set basemap type
+
+//Get the basemap selected and handle basemap changes
 var e = document.getElementById("raster");
 
 function changeRaster() {

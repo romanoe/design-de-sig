@@ -4,9 +4,14 @@ function onsaved(arg,msg){
   }
   else{
     console.log(mode);
-    if (mode=='add') {tempFeature._id=arg._id;}
+    if (mode=='add') {
+      //assign id
+      tempFeature._id=arg._id;
+
+    }
     else if (mode=='mod') {
 
+      //Modify selected feature
       editedFeature.setProperties({"nameO": document.getElementById("nameO").value});
       editedFeature.setProperties({"typeO": document.getElementById("typeO").value});
       editedFeature.setProperties({"date_constructionO": document.getElementById("date_constructionO").value});
@@ -23,7 +28,7 @@ function onsaved(arg,msg){
     closeForm();
 }
 
-
+//Save added/modified/deleted  data
 function savedata(callback) {
   var request = window.superagent;
   var new_ouvrage = {
@@ -110,13 +115,13 @@ function savedata(callback) {
       });
 
    }
+   //Refresh source in order to be able to delete the data that have been added in the same session
     refresh();
  }
 
 //Update sourceO
 function refresh(){
   sourceO.clear(true);
-  //sourceO.addFeatures(features);
   //console.log(' refresh');
   }
 

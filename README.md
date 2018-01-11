@@ -1,12 +1,12 @@
 # DesignDeSIG
-Carte avec couches geojson
+Bienvenue sur notre websig sur la gestion des réseaux routiers au Burkina Faso
 
-Pour que les couches vectorielles soient proprement chargées, veuillez faire tourner le fichier html sur un serveur local:
+Afin que cela marche:
 
--Ouvrez le terminal
+- Ouvrez "mongod"
 
--Allez dans le dossier qui contient le fichier html
+-Ouvrez le terminal et écrivez 'mongo start'
 
--écrivez dans le terminal : python -m http.server
+-Ouvrez une autre fenêtre terminal, allez dans le dossier  websig et écrivez npm start
 
--ensuite, ouvrez un browser (Chrome, Firefox) et connectez vous sur localhost:8000.
+-Ouvrez un browser (Chrome et Firefox vivement conseillés) et connectez vous sur localhost:3000
