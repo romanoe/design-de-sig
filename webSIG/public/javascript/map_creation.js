@@ -72,7 +72,16 @@ var limitesAdm = new ol.layer.Vector({
               url: '/mapjson/burkina_faso_administrative',
               format: new ol.format.GeoJSON(),
               projection: 'EPSG:4326'
-            })
+            }),
+            style: new ol.style.Style({
+              fill: new ol.style.Fill({
+                color: 'steelblue'
+              }),
+              stroke: new ol.style.Stroke({
+                color: 'steelblue',
+                width: 2
+              })
+            }),
 
           });
 

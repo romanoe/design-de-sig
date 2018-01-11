@@ -38,11 +38,21 @@
    <div class="card w-50" id = "layer_select" style="width: auto;">
    	  <div class="card-body">
    	    <h5 class="card-title">Selectionnez les couches que vous désirez afficher</h5>
-   	    	<input type="checkbox" onclick="hideShow(limitesAdm)" checked> Limites Administratives</br>
+        <div style="width:13px;height:13px;border:1px solid #000;background-color:steelblue;display:inline-block"></div>
+   	    <input type="checkbox" onclick="hideShow(limitesAdm)"  checked> Limites Administratives</br>
+        <div style="width:13px;height:13px;border:1px solid #000;background-color:red;display:inline-block"></div>
           <input type="checkbox" onclick="hideShow(routes)" checked> Routes</br>
+          <div style="width:13px;height:13px;border:1px solid #000;background-color:#589f3c;display:inline-block"></div>
           <input type="checkbox" onclick="hideShow(pistes)" checked> Pistes</br>
-   	  </div>
+          <!-- <svg xmlns="http://www.w3.org/2000/svg">
+              <circle cx="6px" cy="8px" r="6px" fill="#fdaf27" display="inline-block" />
+          </svg> -->
+          <div style="width:13px;height:13px;border:1px solid #000;background-color:#fdaf27;display:inline-block"></div>
+          <div style="display:inline-block;">Ouvrages</div>
+
+   	     </div>
    	</div>
+
 
 
    <div class="card w-50" id ="formDeleteOuvrages" style="display:none">

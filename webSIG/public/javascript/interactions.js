@@ -13,7 +13,7 @@ var lastFeature;
 
 //selectInteraction.on("select", deleteFeature, this);
 
-// Define actions when we click on buttons (Add,Modify,Delete). Function setMode
+// Define actions when we click on buttons (Add,Modify,Delete). Function setMode CALL
 document.getElementById('addButton').onclick = setMode;
 document.getElementById('modifyButton').onclick= setMode;
 document.getElementById('deleteButton').onclick= setMode;
@@ -28,7 +28,7 @@ document.getElementById('annulerDeleteOuvrages').onclick= cancelform;
 
 
 
-//Gestion des boutons add,modify and delete
+//Gestion des boutons add,modify and delete + interactions
 let mode = 'none';
 function setMode() {
 
@@ -46,9 +46,11 @@ function setMode() {
     mode = 'add';
     this.style.color='red';
 
+    //Add interactions
     map.addInteraction(draw);
     map.addInteraction(snap);
     draw.on('drawend', function(evt){
+      //Open ouvrage form
       document.getElementById("formOuvrage").style.display = 'block';
       lastFeature = evt.feature;
     });
@@ -86,8 +88,6 @@ else if (this.id=='modifyButton') {
     //Remove previous interactions
     map.removeInteraction(draw);
     map.removeInteraction(modify);
-
-
     this.style.color='red';
   }
 }
@@ -95,7 +95,7 @@ else if (this.id=='modifyButton') {
 
 }
 
-//Function createGeoJSON -
+//Function createGeoJSON - tfeature creation, tFeature modification, tfeature deletion
 function createGeoJSON(evt) {
 
   if(mode==='add'){
@@ -143,9 +143,8 @@ function createGeoJSON(evt) {
         document.getElementById("x_coord").value = feature.getProperties().geometry.getCoordinates()[0];
         document.getElementById("y_coord").value = feature.getProperties().geometry.getCoordinates()[1];
 
-
+        //Open modify form
         document.getElementById("formOuvrage").style.display = 'block';
-
         editedFeature=feature;
         return;
 
@@ -202,11 +201,12 @@ function closeForm() {
 
 }
 
-
-
 // Funtion to display or not the geojson layers (use for limitesAdm, routes and pistes)
 function hideShow(layer) {
-  if(layer.getVisible(true)) {
-    layer.setVisible(false);}
-else { layer.setVisible(true)}
+        if(layer.getVisible(true)) {
+            layer.setVisible(false);
+          }
+        else {
+            layer.setVisible(true);
+      }
 }
